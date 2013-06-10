@@ -1,0 +1,34 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -I$(INC)
+SRC = src
+OBJ = obj
+BIN = bin
+INC = include
+LIBS = -lGL -lSDLmain -lSDL -lSDL_image -lGLU -lopenal -lalut
+OBJECTS = $(OBJ)/random.o $(OBJ)/physics.o $(OBJ)/draw.o $(OBJ)/build.o $(OBJ)/frameControl.o $(OBJ)/init.o $(OBJ)/movement.o $(OBJ)/loader.o $(OBJ)/main.o
+NAME = fps
+
+all: release
+
+release: CFLAGS += -s -O3
+release: main
+
+debug: CFLAGS += -g
+debug: main
+
+main: $(OBJ) $(BIN) $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $(BIN)/$(NAME)
+
+$(OBJ):
+	mkdir $(OBJ)
+$(BIN):
+	mkdir $(BIN)
+
+$(OBJ)/%.o: $(SRC)/%.cpp
+	$(CC) $(CFLAGS) $< -c -o $@
+$(OBJ)/%.o: $(SRC)/%.c
+	$(CC) $(CFLAGS) $< -c -o $@
+
+clean:
+	rm -f $(OBJ)/*.o
+	rm -f $(BIN)/$(NAME)

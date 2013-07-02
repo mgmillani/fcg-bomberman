@@ -10,6 +10,7 @@
 #include "draw.h"
 #include "movement.h"
 #include "init.h"
+#include "gameGrid.h"
 
 #include "definitions.h"
 #include "debug.h"
@@ -32,7 +33,7 @@ int init(int width,int height,int bpp,int options)
 {
 	SDL_putenv("SDL_VIDEO_CENTERED=center");
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)
-			return -1;
+		return -1;
 
 	SDL_WM_SetCaption(gProgName,NULL);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
@@ -65,6 +66,25 @@ int init(int width,int height,int bpp,int options)
 	return 0;
 }
 
+void loadGrid(const char *fname)
+{
+	t_gameGrid grid;
+	t_colorMap colorMap;
+	colorMap.emptyColor[0] = 0;
+	colorMap.emptyColor[1] = 0;
+	colorMap.emptyColor[2] = 0;
+
+	colorMap.breakableColor[0] = 255;
+	colorMap.breakableColor[1] = 0;
+	colorMap.breakableColor[2] = 0;
+
+	colorMap.unbreakableColor[0] = 0;
+	colorMap.unbreakableColor[1] = 255;
+	colorMap.unbreakableColor[2] = 0;
+	gameGridLoad(&grid,fname,&colorMap);
+	gameGridPrint(&grid);
+}
+
 int main(int argc, char **argv)
 {
 	if(init(WIDTH,HEIGHT,BPP,SDL_OPENGL | SDL_SWSURFACE)!=0)
@@ -72,6 +92,8 @@ int main(int argc, char **argv)
 		ERR("Failed to initialize SDL.");
 		return -1;
 	}
+
+	loadGrid("maps/factory.png");
 
 	int numDudes = 170;
 	//personagens

@@ -5,6 +5,7 @@
 		<Option title="room" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="src/;" />
 		<Build>
 			<Target title="debug">
 				<Option output="bin/room" prefix_auto="1" extension_auto="1" />
@@ -32,6 +33,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/build.h" />
+		<Unit filename="include/color.h" />
 		<Unit filename="include/debug.h" />
 		<Unit filename="include/debugOFF.h" />
 		<Unit filename="include/definitions.h" />
@@ -40,12 +42,17 @@
 		<Unit filename="include/gameGrid.h" />
 		<Unit filename="include/gameLogic.h" />
 		<Unit filename="include/init.h" />
-		<Unit filename="include/loader.h" />
+		<Unit filename="include/loader.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="include/movement.h" />
 		<Unit filename="include/physics.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/random.h" />
 		<Unit filename="src/build.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/color.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/draw.c">

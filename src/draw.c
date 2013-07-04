@@ -44,62 +44,6 @@ void updateCam(t_camera *camera,t_character *chr)
 
 }
 
-void drawCrossHair(double radius,double width)
-{
-
-	double i;
-	glColor4f(1,0,0,0.65);
-	glLineWidth(width);
-	glBegin(GL_LINE_LOOP);
-		for(i=0 ; i<2*PI; i+= CIRCLESTEP)
-		{
-			glVertex2f(radius*cos(i),radius*sin(i));
-		}
-		glVertex2f(radius,0);
-	glEnd();
-
-	glColor4f(0,1,0,0.65);
-	glBegin(GL_TRIANGLE_FAN);
-		radius *=0.2;
-		glVertex2f(0,0);
-		for(i=0 ; i<2*PI; i+= CIRCLESTEP)
-			glVertex2f(radius*cos(i),radius*sin(i));
-		glVertex2f(radius,0);
-
-	glEnd();
-}
-
-/**
-  * desenha um cara
-  */
-void drawDude(t_character *dude)
-{
-
-	double width = dude->height/2;
-	double vector[2];	//vetor normal a direcao de movimento. y = 0
-	vector[0] = -dude->dir[2];
-	vector[1] = dude->dir[0];
-	double height = dude->height + sin(dude->headBob)*0.065;
-
-	t_rect3 area;
-	area.pos[0] = dude->pos[0] - width*vector[0]/2;
-	area.pos[1] = dude->pos[1] + height*1.1;
-	area.pos[2] = dude->pos[2] - width*vector[1]/2;
-	area.w[0] = width*vector[0];
-	area.w[1] = 0;
-	area.w[2] = width*vector[1];
-
-	area.v[0] = 0;
-	area.v[1] = -dude->height*1.1;
-	area.v[2] = 0;
-
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D,dude->texture);
-
-	drawRectangle(&area,1,1);
-
-}
-
 void drawWall(t_block *block)
 {
 	glBindTexture(GL_TEXTURE_2D,block->sideTexture);
@@ -120,7 +64,6 @@ void drawGrid(t_gameGrid *grid,t_gridTextures *texes)
 	t_rect3 left,right,up,down;
 
 }
-
 /**
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe
   */
@@ -177,24 +120,5 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
 	glBindTexture(GL_TEXTURE_2D,scene->textures[Ceiling]);
 	drawRectangle(&(scene->walls[Ceiling]),1,1);
 
-	//desenha os caras
-	int i;
-	for(i=1 ; i<numChars ; i++)
-	{
-		drawDude(chr+i);
-	}
 
-	//desenha a crosshair
-	glDisable(GL_TEXTURE_2D);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glDisable(GL_DEPTH_TEST);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	float minx = -1;
-	float maxx = 1;
-	float miny = -1/ratio;
-	float maxy = 1/ratio;
-	glOrtho(minx,maxx,miny,maxy,0.0f,1.0f);
-	drawCrossHair(0.05,crossWidth);
 }

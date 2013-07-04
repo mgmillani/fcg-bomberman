@@ -20,10 +20,6 @@ void updateCam(t_camera *camera,t_character *chr);
 
 //void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 
-/**
-  * desenha um cara
-  */
-void drawDude(t_character *dude);
 
 void drawWall(t_block *block);
 

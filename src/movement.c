@@ -95,44 +95,39 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 		double freq = 0.13;
 		if(character->crouching)
 			freq = 0.1;
-		//corre
-		if((keystate[SDLK_LSHIFT]==1 ||keystate[SDLK_RSHIFT]==1) && character->crouching==0)
-		{
-			speed*=2;
-			freq = 0.17;
-		}
+
 		//move o personagem para frente
-		if(keystate[SDLK_w]==1)
+		if(keystate[SDLK_UP]==1)
 		{
 			for(i=0 ; i<3 ; i++)
 				moveDir[i] += character->dir[i];
 		}
 		//tras
-		if(keystate[SDLK_s]==1)
+		if(keystate[SDLK_DOWN]==1)
 		{
 			for(i=0 ; i<3 ; i++)
 				moveDir[i] -= character->dir[i];
 		}
 		//esquerda
-		if(keystate[SDLK_a]==1)
+		if(keystate[SDLK_LEFT]==1)
 		{
 			moveDir[0] += character->dir[2];
 			moveDir[2] -= character->dir[0];
 		}
 		//direita
-		if(keystate[SDLK_d]==1)
+		if(keystate[SDLK_RIGHT]==1)
 		{
 			moveDir[0] -= character->dir[2];
 			moveDir[2] += character->dir[0];
 		}
-		//pula
-		if(keystate[SDLK_SPACE]==1)
+		//lanças bombas
+		/*if(keystate[SDLK_SPACE]==1)
 		{
 			character->acc[0] += (1+character->jumpStr*0.5)*character->vel[0];
 			character->acc[1] += character->jumpStr;
 			character->acc[2] += (1+character->jumpStr*0.5)*character->vel[2];
 			character->jumping = 1;
-		}
+		}*/
 
 		//normaliza o vetor da direcao do movimento
 		double norm = 0;
@@ -161,39 +156,6 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 				character->headBob = 0;
 		}
 
-	}
-	//gira para a esquerda
-	if(keystate[SDLK_RIGHT]==1)
-		character->look[2]-=character->rotation;
-	//gira para a esquerda
-	if(keystate[SDLK_LEFT]==1)
-		character->look[2]+=character->rotation;
-	//olha para cima
-	if(keystate[SDLK_UP]==1)
-		character->look[1]-=character->rotation;
-	//e para baixo
-	if(keystate[SDLK_DOWN]==1)
-		character->look[1]+=character->rotation;
-
-	//agacha
-	if((keystate[SDLK_LCTRL]==1 || keystate[SDLK_RCTRL]==1))
-	{
-		if(character->crouching ==0)
-		{
-			character->crouching = 1;
-			character->height/=2;
-			character->walkSpeed /=2;
-			character->pos[1]+=character->height;
-		}
-
-	}
-	//levanta
-	else if(character->crouching == 1)
-	{
-		character->walkSpeed *=2;
-		character->pos[1]-=character->height;
-		character->height*=2;
-		character->crouching = 0;
 	}
 }
 

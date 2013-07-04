@@ -4,6 +4,8 @@
 #include <SDL/SDL_opengl.h>
 #include <SDL/SDL_image.h>
 
+#include "play.h"
+
 #include "frameControl.h"
 #include "loader.h"
 #include "physics.h"
@@ -95,13 +97,11 @@ int main(int argc, char **argv)
 
 	loadGrid("maps/factory.png");
 
-	int numDudes = 170;
+    int numDudes = 1;
 	//personagens
 	GLuint dudeTex = loadTexture(gDudeFile);
 	t_character *dudes = malloc(numDudes*sizeof(t_character));
-	int i;
-	for(i=0 ; i<numDudes ; i++)
-		initCharacter(dudes+i,dudeTex);
+	initCharacter(dudes,dudeTex);
 	t_camera camera;
 	initCamera(&camera,dudes);
 

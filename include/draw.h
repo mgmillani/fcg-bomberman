@@ -20,11 +20,6 @@ void updateCam(t_camera *camera,t_character *chr);
 //void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 
 /**
-  * desenha um cara
-  */
-void drawDude(t_character *dude);
-
-/**
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe
   */
 void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY);

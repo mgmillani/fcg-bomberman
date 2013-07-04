@@ -3,6 +3,8 @@ typedef enum e_gridElements;
 #ifndef GAMEGRID_H
 #define GAMEGRID_H
 
+#include <SDL/SDL_opengl.h>
+
 typedef enum {Empty,Bomb,Fire,BreakableWall,UnbreakableWall,NumElements} e_gridElements;
 
 typedef struct s_gameGrid
@@ -17,6 +19,14 @@ typedef struct s_colorMap
 	unsigned char breakableColor[3];
 	unsigned char unbreakableColor[3];
 }t_colorMap;
+
+typedef struct s_gridTextures
+{
+	GLuint weakWall;
+	GLuint strongWall;
+	GLuint floor;
+	GLuint ceiling;
+}t_gridTextures;
 
 /**
   * inicia um grid vazio com largura e altura dada

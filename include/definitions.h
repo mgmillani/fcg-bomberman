@@ -62,5 +62,20 @@ typedef struct s_scene
 	GLuint textures[NumWalls];	//texturas das paredes
 }t_scene;
 
+typedef struct s_block
+{
+	t_rect3 left;
+	t_rect3 right;
+	t_rect3 up;
+	t_rect3 down;
+	t_rect3 top;
+
+	GLuint topTexture;
+	GLuint sideTexture;
+
+	double texScaleX;
+	double texScaleY;
+}t_block;
+
 #endif // DEFINITIONS_H
 

@@ -100,6 +100,27 @@ void drawDude(t_character *dude)
 
 }
 
+void drawWall(t_block *block)
+{
+	glBindTexture(GL_TEXTURE_2D,block->sideTexture);
+	drawRectangle(&block->left,block->texScaleX,block->texScaleY);
+	drawRectangle(&block->up,block->texScaleX,block->texScaleY);
+	drawRectangle(&block->down,block->texScaleX,block->texScaleY);
+	drawRectangle(&block->right,block->texScaleX,block->texScaleY);
+
+	glBindTexture(GL_TEXTURE_2D,block->topTexture);
+	drawRectangle(&block->top,block->texScaleX,block->texScaleY);
+}
+
+void drawGrid(t_gameGrid *grid,t_gridTextures *texes)
+{
+	unsigned int i;
+	double x,y;
+	t_block wall;
+	t_rect3 left,right,up,down;
+
+}
+
 /**
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe
   */

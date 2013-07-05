@@ -66,9 +66,9 @@ void listSort(t_list *list, int (*compare)(void *,void *));
 
 /**
 	*	busca um valor na lista
-	*	se encontar, retorna o dado
+	*	se encontar, retorna o nodo que contem a chave procurada
 	*	caso contrario, retorna NULL
 	*	a funcao de comparacao deve retornar 0 caso sejam iguais
 	*/
-void *listSearch(t_list *list,void *val, int (*compare)(void *key,void *value));
+t_listNode *listSearch(t_list *list,void *val, int (*compare)(void *key,void *value));
 #endif

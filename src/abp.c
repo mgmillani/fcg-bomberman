@@ -41,7 +41,7 @@ t_abp *abpAddNode(t_abp *tree, void *key, void *data, int (*cmp)(void *, void *)
 	*	retorna o nodo que possui tal chave ou
 	*	NULL caso nao encontre
 	*/
-t_abp *abpSearchNode(void *key,t_abp *tree,int (*cmp)(void *, void *))
+t_abp *abpSearchNode(const void *key,t_abp *tree,int (*cmp)(void *, void *))
 {
 
 	if(tree == NULL)
@@ -80,7 +80,34 @@ void abpPrint(t_abp *tree,void (*printKey)(void *),void (*printData)(void *),int
 
 }
 
+/**
+  * funcao basica para ser usada junto de abpPrint
+  * simplesmente escreve data como uma string
+  */
+void abpStringPrint(void *data)
+{
+	printf("%s\n",data);
+}
 
+/**
+  * destroi uma abp usando os destrutores dados
+  * se um deles for NULL, nao sera usado
+  * destroi os descritores
+  */
+void abpDestroy(t_abp *tree, void (*keyDestructor)(void *),void (*dataDestructor)(void *))
+{
+	if(tree == NULL)
+		return;
+
+	if(keyDestructor != NULL)
+		keyDestructor(tree->key);
+	if(dataDestructor != NULL)
+		dataDestructor(tree->data);
+
+	abpDestroy(tree->left,keyDestructor,dataDestructor);
+	abpDestroy(tree->right,keyDestructor,dataDestructor);
+	free(tree);
+}
 
 
 

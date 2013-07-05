@@ -59,11 +59,11 @@ t_list* loadConfig(const char *filename,const char *defaultCategory,t_list *erro
 	fseek(fl,0,SEEK_SET);
 
 	t_list *cats;
-	cats = initList(NULL);
+	cats = listInit(NULL);
 	addCategory(cats,defaultCategory);
 	t_listNode *category = cats->first;
 
-	char *data = malloc(length);
+	char *data = malloc(length+1);
 	fread(data,1,length,fl);
 	fclose(fl);
 
@@ -223,7 +223,7 @@ t_list* loadConfig(const char *filename,const char *defaultCategory,t_list *erro
 			}
 		}//end else (definicao de uma variavel)
 	}//end for
-
+	free(data);
 	return cats;
 }
 
@@ -244,7 +244,7 @@ t_listNode *addCategory(t_list *cats,const char *name)
 	//se nao existir
 	if(node == NULL)
 	{
-		char *catName = malloc(strlen(name));
+		char *catName = malloc(strlen(name)+1);
 		strcpy(catName,name);
 		t_abp *cat = NULL;
 		listAppend(cats,catName,cat);
@@ -298,7 +298,30 @@ void addError(t_list *errors,int errorCode,int line)
 	}
 }
 
+/**
+  * libera a memoria alocada por uma chamada a loadConfig
+  * se um dos parametros for NULL, ignora-o
+  * somente o descritor de config eh liberado
+  */
+void configDestroy(t_list *config, t_list *errors)
+{
+	if(config != NULL)
+	{
+		t_listNode *node;
+		for(node=config->first ; node!=NULL ; node=node->next)
+		{
+			free(node->key);
+			abpDestroy(node->data,free,free);
+			free(node->data);
+		}
+		free(config);
+	}
 
+	if(errors != NULL)
+	{
+		listDestroyData(errors,free,NULL);
+	}
+}
 
 
 

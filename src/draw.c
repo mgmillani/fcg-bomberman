@@ -1,8 +1,10 @@
 #include <math.h>
 
 #include "draw.h"
-#include "definitions.h"
 #include "build.h"
+#include "play.h"
+
+#include "definitions.h"
 
 #include "debug.h"
 
@@ -46,22 +48,38 @@ void updateCam(t_camera *camera,t_character *chr)
 
 void drawWall(t_block *block)
 {
-	glBindTexture(GL_TEXTURE_2D,block->sideTexture);
 	drawRectangle(&block->left,block->texScaleX,block->texScaleY);
 	drawRectangle(&block->up,block->texScaleX,block->texScaleY);
 	drawRectangle(&block->down,block->texScaleX,block->texScaleY);
 	drawRectangle(&block->right,block->texScaleX,block->texScaleY);
-
-	glBindTexture(GL_TEXTURE_2D,block->topTexture);
-	drawRectangle(&block->top,block->texScaleX,block->texScaleY);
 }
 
-void drawGrid(t_gameGrid *grid,t_gridTextures *texes)
+void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellSize,double cellHeight)
 {
-	unsigned int i;
-	double x,y;
+	unsigned int i,j,pos;
+	double location[3] = {0,0,0};
+	double size[3] = {cellSize,cellHeight,cellSize};
 	t_block wall;
+	wall.texScaleX = 1;
+	wall.texScaleY = 1;
 	t_rect3 left,right,up,down;
+	left.pos[1] = 0;
+	right.pos[1] = 0;
+	up.pos[1] = 0;
+	down.pos[1] = 0;
+
+	glBindTexture(GL_TEXTURE_2D,texes->weakWall);
+	for(location[2]=0,pos=0,i=0 ; i<grid->h ; i++,location[2]+=size[2])
+	{
+		for(j=0,location[0]=0 ; j<grid->w ; j++,pos++,location[0]+=size[1])
+		{
+			if(grid->grid[pos] == BreakableWall)
+			{
+				buildBlock(&wall,location,size);
+				drawWall(&wall);
+			}
+		}
+	}
 
 }
 /**
@@ -92,7 +110,7 @@ void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY)
 	glEnd();
 }
 
-void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int width,int height, double crossWidth)
+void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int width,int height, double crossWidth,t_gameData *game)
 {
 
 	//projecao em perspectiva
@@ -113,12 +131,14 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
 	glBindTexture(GL_TEXTURE_2D,scene->textures[Floor]);
 	drawRectangle(&(scene->walls[Floor]),10,10);
 	glBindTexture(GL_TEXTURE_2D,scene->textures[FrontWall]);
-	drawRectangle(&(scene->walls[FrontWall]),2.5,2.5);
-	drawRectangle(&(scene->walls[BackWall]),2.5,2.5);
-	drawRectangle(&(scene->walls[LeftWall]),2.5,2.5);
-	drawRectangle(&(scene->walls[RightWall]),2.5,2.5);
+	//drawRectangle(&(scene->walls[FrontWall]),2.5,2.5);
+	//drawRectangle(&(scene->walls[BackWall]),2.5,2.5);
+	//drawRectangle(&(scene->walls[LeftWall]),2.5,2.5);
+	//drawRectangle(&(scene->walls[RightWall]),2.5,2.5);
 	glBindTexture(GL_TEXTURE_2D,scene->textures[Ceiling]);
 	drawRectangle(&(scene->walls[Ceiling]),1,1);
+
+	drawGrid(game->grid,game->textures,1.0,5.0);
 
 
 }

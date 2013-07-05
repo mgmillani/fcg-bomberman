@@ -1,4 +1,6 @@
 typedef enum e_gridElements;
+typedef struct s_gameGrid t_gameGrid;
+typedef struct s_gridTextures t_gridTextures;
 
 #ifndef GAMEGRID_H
 #define GAMEGRID_H

@@ -43,5 +43,12 @@ t_listNode *addCategory(t_list *cats,const char *name);
 	*/
 void addError(t_list *errors,int errorCode,int line);
 
+/**
+  * libera a memoria alocada por uma chamada a loadConfig
+  * se um dos parametros for NULL, ignora-o
+  * somente o descritor de config eh liberado
+  */
+void configDestroy(t_list *config, t_list *errors);
+
 #endif // CONFIGLODAER_H
 

@@ -42,9 +42,9 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 	int w = img->w;
 	int h = img->h;
 
-	ERR("pitch: %u\n",(unsigned int)img->pitch);
+	//ERR("pitch: %u\n",(unsigned int)img->pitch);
 	unsigned int waste = img->pitch - img->w*c;
-	ERR("waste: %u\n",(unsigned int)waste);
+	//ERR("waste: %u\n",(unsigned int)waste);
 
 	int x,y,z;
 	int pos=0;
@@ -65,7 +65,7 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 		else if(*Bmask != 0)
 			order[z] = color+2;
 
-		ERR("%d : %d\n",z,order[z]-color);
+		//ERR("%d : %d\n",z,order[z]-color);
 
 		Rmask++;
 		Gmask++;
@@ -77,14 +77,14 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 	{
 		for(x=0 ; x<w ; x++,cell++)
 		{
-			ERR("(");
+			//ERR("(");
 			for(z=0 ; z<c ; z++)
 			{
-				ERR("%03d,",(int)pixels[pos]);
+				//ERR("%03d,",(int)pixels[pos]);
 				*order[z] = pixels[pos];
 				pos++;
 			}
-			ERR(")");
+			//ERR(")");
 			//determina se a cor encontrada corresponde a algum objeto
 			if(colorCompare(color,colorMap->breakableColor,3)==0)
 				grid->grid[cell] = BreakableWall;
@@ -92,34 +92,10 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 				grid->grid[cell] = UnbreakableWall;
 			else
 				grid->grid[cell] = Empty;
-
-
-			/*unsigned int i;
-			char equal = 0;
-			for(i=0 ; i<objects->numObj && !equal; i++)
-			{
-				equal = 1;
-				for(z=0 ; z<3 && equal ; z++)
-				{
-					if(color[z] != objects->colors[i*3+z])
-						equal = 0;
-				}
-				//se foi encontrada uma cor
-				if(equal)
-				{
-					int p = map->numInstances*3;
-					map->type[map->numInstances] = i;
-					map->position[p] = minx + (x/(double)w)*(maxx-minx);
-					map->position[p+1] = 1;
-					map->position[p+2] = miny + (y/(double)h)*(maxy-miny);
-
-					map->numInstances++;
-				}
-			}*/
 		}
 		//pula os bytes de alinhamento
 		pos+=waste;
-		ERR("\n");
+		//ERR("\n");
 	}
 
 	SDL_FreeSurface(img);

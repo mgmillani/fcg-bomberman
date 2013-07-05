@@ -201,7 +201,7 @@ void listSort(t_list *list, int (*compare)(void *,void *))
 	*	caso contrario, retorna NULL
 	*	a funcao de comparacao deve retornar 0 caso sejam iguais
 	*/
-void *listSearch(t_list *list,void *val, int (*compare)(void *key,void *value))
+t_listNode *listSearch(t_list *list,void *val, int (*compare)(void *key,void *value))
 {
 	t_listNode *n;
 

@@ -24,9 +24,12 @@ const char gDudeFile[] = "textures/stick.png";
 double gravity[3] = {0,-0.005,0};
 double crossWidth = 2;
 
-void play()
+/**
+  * laco principal do jogo
+  */
+void play(t_gameData *game)
 {
-    int numDudes = 1;
+	int numDudes = 1;
 	//personagens
 	GLuint dudeTex = loadTexture(gDudeFile);
 	t_character *dudes = malloc(numDudes*sizeof(t_character));
@@ -42,13 +45,13 @@ void play()
 	initScene(&scene,floor,wall,sky);
 
 
-    unsigned int fps = DEFAULT_FPS;
+	unsigned int fps = DEFAULT_FPS;
 	t_frameController frameControl;
 	initFrameController(&frameControl,fps);
 
 
-    char play = 1;
-    while(play)
+	char play = 1;
+	while(play)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Uint8 *keystate;
@@ -78,7 +81,7 @@ void play()
 		updateCharacterWalkDir(dudes);
 		moveDudes(dudes+1,numDudes-1);
 		simulatePhysics(dudes,numDudes,&scene,gravity);
-		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth);
+		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
 		SDL_GL_SwapBuffers();
 		//draw_screen();
 		controlFramerate(frameControl);

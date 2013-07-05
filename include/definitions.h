@@ -68,9 +68,7 @@ typedef struct s_block
 	t_rect3 right;
 	t_rect3 up;
 	t_rect3 down;
-	t_rect3 top;
 
-	GLuint topTexture;
 	GLuint sideTexture;
 
 	double texScaleX;

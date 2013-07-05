@@ -19,7 +19,7 @@ typedef struct s_match
   * executa uma partida do jogo
   * retorna 0
   */
-int gameMatch(t_match *data);
+int gameMatch(t_match *match);
 
 #endif // GAMELOGIC_H
 

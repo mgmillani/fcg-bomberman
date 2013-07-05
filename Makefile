@@ -5,7 +5,7 @@ OBJ = obj
 BIN = bin
 INC = include
 LIBS = -lGL -lSDLmain -lSDL -lSDL_image -lGLU -lopenal -lalut
-OBJECTS =  $(OBJ)/main.o $(OBJ)/physics.o $(OBJ)/draw.o $(OBJ)/build.o $(OBJ)/frameControl.o $(OBJ)/init.o $(OBJ)/movement.o $(OBJ)/loader.o $(OBJ)/gameGrid.o $(OBJ)/random.o $(OBJ)/color.o $(OBJ)/play.o
+OBJECTS =  $(OBJ)/main.o $(OBJ)/physics.o $(OBJ)/draw.o $(OBJ)/build.o $(OBJ)/frameControl.o $(OBJ)/init.o $(OBJ)/movement.o $(OBJ)/loader.o $(OBJ)/gameGrid.o $(OBJ)/random.o $(OBJ)/color.o $(OBJ)/play.o $(OBJ)/configLoader.o $(OBJ)/list.o $(OBJ)/abp.o
 NAME = bombot
 
 all: release

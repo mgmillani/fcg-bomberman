@@ -97,25 +97,25 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 			freq = 0.1;
 
 		//move o personagem para frente
-		if(keystate[SDLK_UP]==1)
+		if(keystate[SDLK_w]==1)
 		{
 			for(i=0 ; i<3 ; i++)
 				moveDir[i] += character->dir[i];
 		}
 		//tras
-		if(keystate[SDLK_DOWN]==1)
+		if(keystate[SDLK_s]==1)
 		{
 			for(i=0 ; i<3 ; i++)
 				moveDir[i] -= character->dir[i];
 		}
 		//esquerda
-		if(keystate[SDLK_LEFT]==1)
+		if(keystate[SDLK_a]==1)
 		{
 			moveDir[0] += character->dir[2];
 			moveDir[2] -= character->dir[0];
 		}
 		//direita
-		if(keystate[SDLK_RIGHT]==1)
+		if(keystate[SDLK_d]==1)
 		{
 			moveDir[0] -= character->dir[2];
 			moveDir[2] += character->dir[0];

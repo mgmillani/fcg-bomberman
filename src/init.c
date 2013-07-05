@@ -115,15 +115,3 @@ t_scene *initScene(t_scene *scene, GLuint ground, GLuint wall, GLuint ceiling)
 	return scene;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

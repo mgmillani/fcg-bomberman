@@ -2,12 +2,12 @@
 #define PLAY_H
 
 
+/**
+ *
+ *
+ */
 
-
-
-
-
-
+void play();
 
 
 #endif // PLAY_H

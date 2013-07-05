@@ -1,9 +1,54 @@
 #include <stdlib.h>
 
+#include <SDL/SDL.h>
+
 #include "play.h"
 
+#include "frameControl.h"
+#include "draw.h"
+#include "init.h"
+#include "physics.h"
+#include "movement.h"
 
-while(play)
+#define WIDTH 800
+#define HEIGHT 600
+#define DEFAULT_FPS 60
+
+char should_rotate = 1;
+
+const char gFloorFile[] = "textures/floor.png";
+const char gWallFile[] = "textures/wall.jpg";
+const char gSkyFile[] = "textures/bluesky.jpg";
+const char gDudeFile[] = "textures/stick.png";
+
+double gravity[3] = {0,-0.005,0};
+double crossWidth = 2;
+
+void play()
+{
+    int numDudes = 1;
+	//personagens
+	GLuint dudeTex = loadTexture(gDudeFile);
+	t_character *dudes = malloc(numDudes*sizeof(t_character));
+	initCharacter(dudes,dudeTex);
+	t_camera camera;
+	initCamera(&camera,dudes);
+
+	//as paredes
+	t_scene scene;
+	GLuint floor = loadTexture(gFloorFile);
+	GLuint wall = loadTexture(gWallFile);
+	GLuint sky = loadTexture(gSkyFile);
+	initScene(&scene,floor,wall,sky);
+
+
+    unsigned int fps = DEFAULT_FPS;
+	t_frameController frameControl;
+	initFrameController(&frameControl,fps);
+
+
+    char play = 1;
+    while(play)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Uint8 *keystate;
@@ -38,3 +83,5 @@ while(play)
 		//draw_screen();
 		controlFramerate(frameControl);
 	}
+
+}

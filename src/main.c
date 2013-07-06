@@ -34,8 +34,7 @@ int init(int width,int height,int bpp,int options)
 	SDL_ShowCursor(SDL_DISABLE);
 
 	//opengl stuff
-	glEnable(GL_LINE_SMOOTH);
-
+	glEnable(GL_CULL_FACE);
 	glClearColor(0.05f,0.25f,0.70f,0.0f);
 	glViewport(0,0,width,height);
 	glClear(GL_COLOR_BUFFER_BIT);

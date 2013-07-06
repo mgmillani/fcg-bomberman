@@ -20,6 +20,8 @@ t_gameGrid *gameGridInit(t_gameGrid *grid,unsigned int w, unsigned int h)
 		grid = malloc(sizeof(*grid));
 	grid->w = w;
 	grid->h = h;
+	grid->cellSize = 1.0;
+	grid->spawnPoints = 0;
 	grid->grid = malloc(max*sizeof(*grid->grid));
 	for(i=0 ; i<max ; i++)
 		grid->grid[i] = Empty;
@@ -90,6 +92,11 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 				grid->grid[cell] = BreakableWall;
 			else if(colorCompare(color,colorMap->unbreakableColor,3)==0)
 				grid->grid[cell] = UnbreakableWall;
+			else if(colorCompare(color,colorMap->spawnColor,3)==0)
+			{
+				grid->grid[cell] = Spawn;
+				grid->spawnPoints++;
+			}
 			else
 				grid->grid[cell] = Empty;
 		}

@@ -58,8 +58,6 @@ typedef struct s_scene
 {
 	double minPos[3];	//limites da cena
 	double maxPos[3];
-	t_rect3 walls[NumWalls];	//paredes da cena
-	GLuint textures[NumWalls];	//texturas das paredes
 }t_scene;
 
 typedef struct s_block

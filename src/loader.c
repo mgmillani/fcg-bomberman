@@ -36,8 +36,12 @@ t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 	colorMap.unbreakableColor[0] = 0;
 	colorMap.unbreakableColor[1] = 255;
 	colorMap.unbreakableColor[2] = 0;
+
+	colorMap.spawnColor[0] = 0;
+	colorMap.spawnColor[1] = 0;
+	colorMap.spawnColor[2] = 255;
 	gameGridLoad(grid,fname,&colorMap);
-	gameGridPrint(grid);
+	//gameGridPrint(grid);
 
 	return grid;
 }
@@ -68,12 +72,11 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	}
 
 	//carrega as texturas
-	t_abp *mapInfo = listSearch(cfg,mapName,(int (*)(void*,void*))strcmp)->data;
-	abpPrint(mapInfo,abpStringPrint,abpStringPrint,1);
+	t_abp *mapInfo = listSearch(cfg,mapName,(int (*)(const void*,const void*))strcmp)->data;
 	t_gridTextures *textures = loadTextures(mapInfo,NULL);
 	//carrega o grid
-	t_abp *gridFile = abpSearchNode(gMapKeyword,mapInfo,(int (*)(void*,void*))strcmp);
-	t_gridTextures *grid = loadGrid(gridFile->data,NULL);
+	t_abp *gridFile = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	t_gameGrid *grid = loadGrid(gridFile->data,NULL);
 
 	data->grid = grid;
 	data->textures = textures;
@@ -97,7 +100,7 @@ t_gridTextures *loadTextures(t_abp *types, t_gridTextures *textures)
 	if(textures == NULL)
 		textures = malloc(sizeof(*textures));
 
-	t_abp *path = abpSearchNode(gWeakKeyword,types,(int (*)(void*,void*))strcmp);
+	t_abp *path = abpSearchNode(gWeakKeyword,types,(int (*)(const void*,const void*))strcmp);
 	if(path == NULL)
 	{
 		ERR("%s not defined\n",gWeakKeyword);
@@ -105,7 +108,7 @@ t_gridTextures *loadTextures(t_abp *types, t_gridTextures *textures)
 	}
 	textures->weakWall = loadTexture(path->data);
 
-	path = abpSearchNode(gStrongKeyword,types,(int (*)(void*,void*))strcmp);
+	path = abpSearchNode(gStrongKeyword,types,(int (*)(const void*,const void*))strcmp);
 	if(path == NULL)
 	{
 		ERR("%s not defined\n",gStrongKeyword);
@@ -113,7 +116,7 @@ t_gridTextures *loadTextures(t_abp *types, t_gridTextures *textures)
 	}
 	textures->strongWall = loadTexture(path->data);
 
-	path = abpSearchNode(gFloorKeyword,types,(int (*)(void*,void*))strcmp);
+	path = abpSearchNode(gFloorKeyword,types,(int (*)(const void*,const void*))strcmp);
 	if(path == NULL)
 	{
 		ERR("%s not defined\n",gFloorKeyword);
@@ -121,7 +124,7 @@ t_gridTextures *loadTextures(t_abp *types, t_gridTextures *textures)
 	}
 	textures->floor = loadTexture(path->data);
 
-	path = abpSearchNode(gCeilingKeyword,types,(int (*)(void*,void*))strcmp);
+	path = abpSearchNode(gCeilingKeyword,types,(int (*)(const void*,const void*))strcmp);
 	if(path == NULL)
 	{
 		ERR("%s not defined\n",gCeilingKeyword);
@@ -183,8 +186,7 @@ GLuint surface2texture(SDL_Surface *surface)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 
 	//usa a surface para criar a textura
-	glTexImage2D(GL_TEXTURE_2D,0,internalFormat,width,height,0,textureFormat,
-								GL_UNSIGNED_BYTE,surface->pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
 
 	SDL_FreeSurface(surface);
 

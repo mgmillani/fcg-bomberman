@@ -9,6 +9,9 @@
 #include "init.h"
 #include "physics.h"
 #include "movement.h"
+#include "loader.h"
+
+#include "debug.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -33,22 +36,17 @@ void play(t_gameData *game)
 	//personagens
 	GLuint dudeTex = loadTexture(gDudeFile);
 	t_character *dudes = malloc(numDudes*sizeof(t_character));
-	initCharacter(dudes,dudeTex);
+	initCharacter(dudes,dudeTex,game->grid);
 	t_camera camera;
 	initCamera(&camera,dudes);
 
-	//as paredes
+	//o cenario
 	t_scene scene;
-	GLuint floor = loadTexture(gFloorFile);
-	GLuint wall = loadTexture(gWallFile);
-	GLuint sky = loadTexture(gSkyFile);
-	initScene(&scene,floor,wall,sky);
-
+	initScene(&scene,game->grid);
 
 	unsigned int fps = DEFAULT_FPS;
 	t_frameController frameControl;
 	initFrameController(&frameControl,fps);
-
 
 	char play = 1;
 	while(play)
@@ -79,8 +77,9 @@ void play(t_gameData *game)
 
 		treatKeyStateCharacter(dudes, keystate, numKeys);
 		updateCharacterWalkDir(dudes);
-		moveDudes(dudes+1,numDudes-1);
+		//moveDudes(dudes+1,numDudes-1);
 		simulatePhysics(dudes,numDudes,&scene,gravity);
+		//ERR("Char pos: %.2lf %.2lf %.2lf\n",dudes->pos[0],dudes->pos[1],dudes->pos[2]);
 		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
 		SDL_GL_SwapBuffers();
 		//draw_screen();

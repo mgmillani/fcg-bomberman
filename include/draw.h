@@ -27,7 +27,7 @@ void drawWall(t_block *block);
 /**
   * desenha todos os muros que existem
   */
-void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellSize,double cellHeight);
+void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellHeight);
 
 /**
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe

@@ -240,7 +240,7 @@ t_listNode *addCategory(t_list *cats,const char *name)
 
 	t_listNode *node;
 	//verifica se o nome ja existe
-	node = listSearch(cats,name,(int (*)(void*,void*))strcmp);
+	node = listSearch(cats,name,(int (*)(const void*,const void*))strcmp);
 	//se nao existir
 	if(node == NULL)
 	{

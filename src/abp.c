@@ -41,7 +41,7 @@ t_abp *abpAddNode(t_abp *tree, void *key, void *data, int (*cmp)(void *, void *)
 	*	retorna o nodo que possui tal chave ou
 	*	NULL caso nao encontre
 	*/
-t_abp *abpSearchNode(const void *key,t_abp *tree,int (*cmp)(void *, void *))
+t_abp *abpSearchNode(const void *key,t_abp *tree,int (*cmp)(const void *,const void *))
 {
 
 	if(tree == NULL)
@@ -86,7 +86,7 @@ void abpPrint(t_abp *tree,void (*printKey)(void *),void (*printData)(void *),int
   */
 void abpStringPrint(void *data)
 {
-	printf("%s\n",data);
+	printf("%s\n",(char *)data);
 }
 
 /**

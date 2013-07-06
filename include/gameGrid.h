@@ -1,23 +1,26 @@
-typedef enum e_gridElements;
+/*typedef enum e_gridElements;
 typedef struct s_gameGrid t_gameGrid;
 typedef struct s_gridTextures t_gridTextures;
-
+*/
 #ifndef GAMEGRID_H
 #define GAMEGRID_H
 
 #include <SDL/SDL_opengl.h>
 
-typedef enum {Empty,Bomb,Fire,BreakableWall,UnbreakableWall,NumElements} e_gridElements;
+typedef enum {Empty,Bomb,Fire,Spawn,BreakableWall,UnbreakableWall,NumElements} e_gridElements;
 
 typedef struct s_gameGrid
 {
-	e_gridElements *grid;  //indica que tipo de coisa que existe em cada ponto do grid
-	unsigned int w,h; //altura e largura do grid
+	e_gridElements *grid;     //indica que tipo de coisa que existe em cada ponto do grid
+	unsigned int w,h;         //altura e largura do grid
+	double cellSize;          //tamanho das celulas do grid ao serem desenhadas
+	unsigned int spawnPoints; //numero de spawnpoints no mapa
 }t_gameGrid;
 
 typedef struct s_colorMap
 {
 	unsigned char emptyColor[3];
+	unsigned char spawnColor[3];
 	unsigned char breakableColor[3];
 	unsigned char unbreakableColor[3];
 }t_colorMap;
@@ -29,6 +32,7 @@ typedef struct s_gridTextures
 	GLuint floor;
 	GLuint ceiling;
 }t_gridTextures;
+
 
 /**
   * inicia um grid vazio com largura e altura dada

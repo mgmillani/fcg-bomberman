@@ -3,6 +3,9 @@
 
 #include <SDL/SDL.h>
 
+#include "gameGrid.h"
+#include "play.h"
+
 #include "definitions.h"
 
 /**
@@ -29,6 +32,11 @@ void treatMouseMovement(t_character *chr, int deltax, int deltay);
   * trata um evento do tipo SDL_KEYDOWN
   */
 void treatKeyDownCharacters(t_character *chr,SDL_Event *event);
+
+/**
+  * altera o estado do jogo dependendo do que o jogador tentou fazer
+  */
+void treatCharacterAction(t_character *chr,t_gameData *data);
 
 /**
   * determina o movimento do personagem com base nas teclas pressionadas

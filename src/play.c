@@ -40,6 +40,10 @@ void play(t_gameData *game)
 	t_camera camera;
 	initCamera(&camera,dudes);
 
+	//lista para as bombas
+	t_list bombs;
+	listInit(&bombs);
+
 	//o cenario
 	t_scene scene;
 	initScene(&scene,game->grid);
@@ -81,6 +85,7 @@ void play(t_gameData *game)
 
 		treatKeyStateCharacter(dudes, keystate, numKeys);
 		updateCharacterWalkDir(dudes);
+		treatCharacterAction(dudes,game);
 		//moveDudes(dudes+1,numDudes-1);
 		simulatePhysics(dudes,numDudes,&scene,gravity);
 		//ERR("Char pos: %.2lf %.2lf %.2lf\n",dudes->pos[0],dudes->pos[1],dudes->pos[2]);

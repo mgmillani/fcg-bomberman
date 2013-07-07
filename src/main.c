@@ -7,6 +7,7 @@
 #include "play.h"
 #include "loader.h"
 #include "gameGrid.h"
+#include "list.h"
 
 #include "definitions.h"
 #include "debug.h"
@@ -64,10 +65,11 @@ int main(int argc, char **argv)
 
 	t_gameData data;
 	loadMap("config","Empty",&data);
+	listInit(&(data.bombs));
 
 	play(&data);
 
-
+	SDL_Quit();
 	return 0;
 
 }

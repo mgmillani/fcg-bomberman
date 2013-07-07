@@ -4,6 +4,7 @@
 #include "gameGrid.h"
 #include "play.h"
 #include "camera.h"
+#include "bomb.h"
 
 #include "definitions.h"
 
@@ -34,6 +35,11 @@ void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY);
   * desenha um personagem em sua devida posicao
   */
 void drawCharacter(t_character *chr);
+
+/**
+  * desenha as bombas
+  */
+void drawBombs(t_list *bombs, double cellSize);
 
 void drawScene(t_scene *scene,t_camera *cameram,t_character *chr,int numChars,int width,int height,double crossWidth,t_gameData *game);
 

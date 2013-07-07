@@ -4,6 +4,8 @@
 	weak = textures/factory/blue-metal.jpg
 	strong = textures/factory/yellow-metal.jpg
 	map = maps/empty.png
+	bomb = textures/factory/fuseC.jpg
+	fuse = textures/factory/fuseC.jpg
 
 [Factory]
 	floor = textures/factory/black-metal.jpg
@@ -11,3 +13,5 @@
 	weak = textures/factory/blue-metal.jpg
 	strong = textures/factory/yellow-metal.jpg
 	map = maps/factory.png
+	bomb = textures/factory/bombB.jpg
+	fuse = textures/factory/fuseB.jpg

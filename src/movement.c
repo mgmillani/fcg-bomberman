@@ -4,6 +4,7 @@
 
 #include "definitions.h"
 #include "movement.h"
+#include "bomb.h"
 #include "random.h"
 
 #include "debug.h"
@@ -84,6 +85,69 @@ void treatKeyDownCharacters(t_character *chr,SDL_Event *event)
 	{
 		chr->firstPerson ^=1;
 	}
+	else if(event->key.keysym.sym == SDLK_SPACE)
+	{
+		chr->action = PlaceBomb;
+	}
+}
+
+/**
+  * altera o estado do jogo dependendo do que o jogador tentou fazer
+  */
+void treatCharacterAction(t_character *chr,t_gameData *data)
+{
+	t_gameGrid *grid = data->grid;
+	t_list *bombs = &data->bombs;
+	switch(chr->action)
+	{
+		case PlaceBomb:
+		{
+			//determina a posicao do personagem
+			int x,y;
+			//ERR("CHR: %.2lf %.2lf\n",chr->pos[0],chr->pos[2]);
+			//ERR("Cell: %.2lf\n",grid->cellSize);
+			x = (chr->pos[0] + grid->cellSize/2)/grid->cellSize;
+			y = (chr->pos[2] + grid->cellSize/2)/grid->cellSize;
+			//determina para onde ele esta olhando
+			int dx = 0,dy = 0;
+			if(chr->dir[0] > 0.5)
+				dx = 1;
+			else if(chr->dir[0] < -0.5)
+				dx = -1;
+			if(chr->dir[2] > 0.5)
+				dy = 1;
+			else if(chr->dir[2] < -0.5)
+				dy = -1;
+
+			//ERR("Dir: %.2lf %.2lf\n",chr->dir[0],chr->dir[2]);
+
+			//personagem nao esta olhando diretamente para nenhuma celula
+			if(dx + dy == 0)
+				break;
+
+			//verifica se a posicao a frente do personagem esta livre
+			x += dx;
+			y += dy;
+			//ERR("X: %d\tY:%d\n",x,y);
+			//ERR("dX: %d\tdY:%d\n",dx,dy);
+			//verifica se esta dentro dos limites
+			if(x >= grid->w || x<0)
+				break;
+			if(y >= grid->h || y<0)
+				break;
+			if(grid->grid[x + y*grid->w] == Empty)
+			{
+				//cria a bomba
+				grid->grid[x + y*grid->w] = Bomb;
+				t_bomb *bomb = bombCreate(NULL,data->bombTexture,data->fuseTexture,chr->power,x,y);
+				listAppend(bombs,bomb,NULL);
+			}
+		}
+			break;
+		default:
+			break;
+	}
+	chr->action = None;
 }
 
 /**
@@ -121,15 +185,6 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 		moveDir[0] -= character->dir[2];
 		moveDir[2] += character->dir[0];
 	}
-
-	//lanças bombas
-	/*if(keystate[SDLK_SPACE]==1)
-	{
-		character->acc[0] += (1+character->jumpStr*0.5)*character->vel[0];
-		character->acc[1] += character->jumpStr;
-		character->acc[2] += (1+character->jumpStr*0.5)*character->vel[2];
-		character->jumping = 1;
-	}*/
 
 	//normaliza o vetor da direcao do movimento
 	double norm = 0;

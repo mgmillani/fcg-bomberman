@@ -46,8 +46,6 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 				chr->pos[1] = 1.0;
 				chr->pos[2] = i*grid->cellSize;
 				grid->spawnPoints--;
-
-				//ERR("Char pos: %.2lf %.2lf %.2lf\n",chr->pos[0],chr->pos[1],chr->pos[2]);
 			}
 		}
 	}
@@ -60,9 +58,11 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 	chr->look[2] = 0;
 
 	chr->firstPerson = 0;
+	chr->action = None;
 
 	chr->height = 0.65;
 	chr->walkSpeed = WALKSPEED;
+	chr->power = 1;
 	chr->rotation = PI/30;
 
 	chr->wheelRot = 0;

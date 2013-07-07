@@ -18,6 +18,8 @@ const char gWeakKeyword[] = "weak";
 const char gStrongKeyword[] = "strong";
 const char gFloorKeyword[] = "floor";
 const char gCeilingKeyword[] = "ceiling";
+const char gBombKeyword[] = "bomb";
+const char gFuseKeyword[] = "fuse";
 
 t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 {
@@ -74,9 +76,17 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	//carrega as texturas
 	t_abp *mapInfo = listSearch(cfg,mapName,(int (*)(const void*,const void*))strcmp)->data;
 	t_gridTextures *textures = loadTextures(mapInfo,NULL);
+	//bomba
+	t_abp *path = abpSearchNode(gBombKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	ERR("bomb: %s\n",path->data);
+	data->bombTexture = loadTexture(path->data);
+	//pavio
+	path = abpSearchNode(gFuseKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	ERR("fuse: %s\n",path->data);
+	data->fuseTexture = loadTexture(path->data);
 	//carrega o grid
-	t_abp *gridFile = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
-	t_gameGrid *grid = loadGrid(gridFile->data,NULL);
+	path = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	t_gameGrid *grid = loadGrid(path->data,NULL);
 
 	data->grid = grid;
 	data->textures = textures;
@@ -199,5 +209,7 @@ GLuint surface2texture(SDL_Surface *surface)
 GLuint loadTexture(const char *fname)
 {
 	SDL_Surface *img = IMG_Load(fname);
+	if(img == NULL)
+		ERR("Unable to open file : %s\n",fname);
 	return surface2texture(img);
 }

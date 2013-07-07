@@ -9,9 +9,10 @@
 #define JUMPSTR 0.1
 #define ZERO 0.00001
 #define AIRFRICTION 0.985
-#define FLOORFRICTION 0.85
+#define FLOORFRICTION 0.65
 
-typedef enum {Floor, LeftWall, RightWall, FrontWall, BackWall,Ceiling,NumWalls} e_wall;
+typedef enum {Floor, LeftWall, RightWall, FrontWall, BackWall, Ceiling, NumWalls} e_wall;
+typedef enum {None,PlaceBomb} e_action;
 
 typedef struct s_rect
 {
@@ -28,9 +29,11 @@ typedef struct s_character
 	double look[3]; //spherical coordinates (r,theta,phi) - where the character is looking
 
 	char firstPerson;
+	e_action action;  //acao que o jogador tentou fazer
 
 	double height;
 	double walkSpeed;
+	unsigned int power;
 	double rotation;
 
 	double wheelRot;    //rotacao da roda, em graus

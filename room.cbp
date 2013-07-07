@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/abp.h" />
+		<Unit filename="include/bomb.h" />
 		<Unit filename="include/build.h" />
 		<Unit filename="include/camera.h" />
 		<Unit filename="include/color.h" />
@@ -52,6 +53,9 @@
 		<Unit filename="include/player.h" />
 		<Unit filename="include/random.h" />
 		<Unit filename="src/abp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bomb.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/build.c">

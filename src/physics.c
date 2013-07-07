@@ -33,7 +33,7 @@ void simulatePhysics(t_character *dudes,int numDudes, t_scene *scene,double grav
 
 		}
 		double sum = sqrt(chr->vel[0]*chr->vel[0] + chr->vel[2]*chr->vel[2]);
-		if(sum > 0.0001)
+		if(sum > ZERO)
 		{
 			chr->wheelNorm[0] = chr->vel[2]/(sum);
 			chr->wheelNorm[2] = -chr->vel[0]/(sum);

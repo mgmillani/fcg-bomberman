@@ -4,6 +4,7 @@
 #include "build.h"
 #include "play.h"
 #include "camera.h"
+#include "bomb.h"
 
 #include "definitions.h"
 
@@ -136,6 +137,25 @@ void drawCharacter(t_character *chr)
 	glPopMatrix();
 }
 
+
+/**
+  * desenha as bombas
+  */
+void drawBombs(t_list *bombs, double cellSize)
+{
+	t_listNode *bomb;
+
+	for(bomb=bombs->first ; bomb!=NULL ; bomb=bomb->next)
+	{
+		t_bomb *b = bomb->key;
+		double x = b->pos[0]*cellSize;
+		double y = b->pos[1]*cellSize;
+		glTranslated(x,0,y);
+		drawBomb(b);
+		glTranslated(-x,0,-y);
+	}
+}
+
 void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int width,int height, double crossWidth,t_gameData *game)
 {
 
@@ -157,4 +177,5 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
 	drawGrid(game->grid,game->textures,3.0);
 	//glDisable(GL_TEXTURE_2D);
 	drawCharacter(chr);
+	drawBombs(&(game->bombs),game->grid->cellSize);
 }

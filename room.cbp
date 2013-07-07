@@ -33,6 +33,7 @@
 		</Compiler>
 		<Unit filename="include/abp.h" />
 		<Unit filename="include/build.h" />
+		<Unit filename="include/camera.h" />
 		<Unit filename="include/color.h" />
 		<Unit filename="include/configLoader.h" />
 		<Unit filename="include/debug.h" />
@@ -54,6 +55,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/build.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/camera.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/color.c">
@@ -90,6 +94,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/play.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/player.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/random.c">

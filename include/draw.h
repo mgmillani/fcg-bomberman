@@ -3,6 +3,7 @@
 
 #include "gameGrid.h"
 #include "play.h"
+#include "camera.h"
 
 #include "definitions.h"
 
@@ -14,11 +15,6 @@
 void moveDudes(t_character *dudes, int numDudes);
 
 void drawCrossHair(double radius,double width);
-
-/**
-Atualiza a posição e orientação da camera
-*/
-void updateCam(t_camera *camera,t_character *chr);
 
 //void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 
@@ -33,6 +29,11 @@ void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellHeight);
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe
   */
 void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY);
+
+/**
+  * desenha um personagem em sua devida posicao
+  */
+void drawCharacter(t_character *chr);
 
 void drawScene(t_scene *scene,t_camera *cameram,t_character *chr,int numChars,int width,int height,double crossWidth,t_gameData *game);
 

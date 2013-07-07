@@ -17,21 +17,11 @@ void simulatePhysics(t_character *dudes,int numDudes, t_scene *scene,double grav
 	for(j=0 ; j<numDudes ; j++)
 	{
 		t_character *chr = dudes+j;
-		//ERR("j:%d\n",j);
-		//ERR("Pos: %lf %lf %lf\n",chr->pos[0],chr->pos[1],chr->pos[2]);
 		int i;
 		//faz com que o personagem nao saia da cena
 		forceWithinScene(chr,scene);
 
-		//verifica se o personagem esta no ar
-		if(fabs(chr->pos[1] - scene->minPos[1]) <= fabs(gravity[1]))
-			chr->jumping = 0;
-
-		double friction;
-		if(chr->jumping == 1)
-			friction = AIRFRICTION;
-		else
-			friction = FLOORFRICTION;
+		double friction = FLOORFRICTION;
 
 		//atualiza os vetores
 		//aplica a gravidade
@@ -40,6 +30,18 @@ void simulatePhysics(t_character *dudes,int numDudes, t_scene *scene,double grav
 			chr->vel[i] = chr->acc[i] + chr->vel[i]*friction;
 			chr->acc[i] = gravity[i];
 			chr->pos[i] += chr->vel[i];
+
+		}
+		double sum = sqrt(chr->vel[0]*chr->vel[0] + chr->vel[2]*chr->vel[2]);
+		if(sum > 0.0001)
+		{
+			chr->wheelNorm[0] = chr->vel[2]/(sum);
+			chr->wheelNorm[2] = -chr->vel[0]/(sum);
+			chr->wheelRot += (sum/chr->wheelRadius)*(180/PI);
+			if(chr->wheelRot > 360)
+				chr->wheelRot -= 360;
+			else if(chr->wheelRot < 0)
+				chr->wheelRot += 360;
 		}
 	}
 }

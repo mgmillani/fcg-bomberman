@@ -14,7 +14,7 @@
 void moveDudes(t_character *dudes, int numDudes)
 {
 	int i;
-	double freq = 0.17;
+	//double freq = 0.17;
 	for(i=0 ; i<numDudes ; i++)
 	{
 		//rotaciona aleatoriamente
@@ -38,11 +38,6 @@ void moveDudes(t_character *dudes, int numDudes)
 		//move para frente
 		for(j=0 ; j<3 ; j++)
 			dudes[i].acc[j] += dudes[i].dir[j]*dudes[i].walkSpeed;
-
-		//faz o headBob
-		dudes[i].headBob += freq;
-		if(dudes[i].headBob > PI)
-			dudes[i].headBob = 0;
 
 		//o personagem pode pular
 		//if(randrange(50)==0)
@@ -81,6 +76,17 @@ void treatMouseMovement(t_character *chr, int deltax, int deltay)
 }
 
 /**
+  * trata um evento do tipo SDL_KEYDOWN
+  */
+void treatKeyDownCharacters(t_character *chr,SDL_Event *event)
+{
+	if(event->key.keysym.sym == SDLK_v)
+	{
+		chr->firstPerson ^=1;
+	}
+}
+
+/**
   * determina o movimento do personagem com base nas teclas pressionadas
   */
 void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
@@ -89,75 +95,55 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 	double speed = character->walkSpeed;
 	double moveDir[3] = {};
 
-	if(character->jumping == 0)
+	//double freq = 0.13;
+
+	//move o personagem para frente
+	if(keystate[SDLK_w]==1)
 	{
-		char bob = 0;
-		double freq = 0.13;
-		if(character->crouching)
-			freq = 0.1;
-
-		//move o personagem para frente
-		if(keystate[SDLK_w]==1)
-		{
-			for(i=0 ; i<3 ; i++)
-				moveDir[i] += character->dir[i];
-		}
-		//tras
-		if(keystate[SDLK_s]==1)
-		{
-			for(i=0 ; i<3 ; i++)
-				moveDir[i] -= character->dir[i];
-		}
-		//esquerda
-		if(keystate[SDLK_a]==1)
-		{
-			moveDir[0] += character->dir[2];
-			moveDir[2] -= character->dir[0];
-		}
-		//direita
-		if(keystate[SDLK_d]==1)
-		{
-			moveDir[0] -= character->dir[2];
-			moveDir[2] += character->dir[0];
-		}
-		//lanças bombas
-		/*if(keystate[SDLK_SPACE]==1)
-		{
-			character->acc[0] += (1+character->jumpStr*0.5)*character->vel[0];
-			character->acc[1] += character->jumpStr;
-			character->acc[2] += (1+character->jumpStr*0.5)*character->vel[2];
-			character->jumping = 1;
-		}*/
-
-		//normaliza o vetor da direcao do movimento
-		double norm = 0;
-		int i;
 		for(i=0 ; i<3 ; i++)
-			norm += moveDir[i]*moveDir[i];
-		if(norm>0)
-		{
-			bob =1;
-			norm = sqrt(norm);
-			for(i=0 ; i<3 ; i++)
-				character->acc[i] += speed*moveDir[i]/norm;
-		}
-
-		//se deve ser feito o head bob
-		if(bob)
-		{
-			character->headBob += freq;
-			if(character->headBob > PI)
-				character->headBob = 0;
-		}
-		else
-		{
-			character->headBob -= freq;
-			if(character->headBob < 0)
-				character->headBob = 0;
-		}
-
+			moveDir[i] += character->dir[i];
 	}
+	//tras
+	if(keystate[SDLK_s]==1)
+	{
+		for(i=0 ; i<3 ; i++)
+			moveDir[i] -= character->dir[i];
+	}
+	//esquerda
+	if(keystate[SDLK_a]==1)
+	{
+		moveDir[0] += character->dir[2];
+		moveDir[2] -= character->dir[0];
+	}
+	//direita
+	if(keystate[SDLK_d]==1)
+	{
+		moveDir[0] -= character->dir[2];
+		moveDir[2] += character->dir[0];
+	}
+
+	//lanças bombas
+	/*if(keystate[SDLK_SPACE]==1)
+	{
+		character->acc[0] += (1+character->jumpStr*0.5)*character->vel[0];
+		character->acc[1] += character->jumpStr;
+		character->acc[2] += (1+character->jumpStr*0.5)*character->vel[2];
+		character->jumping = 1;
+	}*/
+
+	//normaliza o vetor da direcao do movimento
+	double norm = 0;
+	for(i=0 ; i<3 ; i++)
+		norm += moveDir[i]*moveDir[i];
+	if(norm>0)
+	{
+		norm = sqrt(norm);
+		for(i=0 ; i<3 ; i++)
+			character->acc[i] += speed*moveDir[i]/norm;
+	}
+
 }
+
 
 
 

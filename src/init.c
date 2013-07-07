@@ -59,14 +59,23 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 	chr->look[1] = PI/2;
 	chr->look[2] = 0;
 
-	chr->jumping = 0;
-	chr->crouching = 0;
+	chr->firstPerson = 0;
 
-	chr->headBob = (randrange(100)/100.0)*PI;
-	chr->height = 0.5;
+	chr->height = 0.65;
 	chr->walkSpeed = WALKSPEED;
-	chr->jumpStr = JUMPSTR;
 	chr->rotation = PI/30;
+
+	chr->wheelRot = 0;
+	chr->wheelNorm[0] = 1;
+	chr->wheelNorm[1] = 0;
+	chr->wheelNorm[2] = 0;
+	chr->wheelRadius = 0.1;
+	chr->neckHeight = 0.01;
+	chr->wheel = gluNewQuadric();
+	chr->body = gluNewQuadric();
+	chr->arm = gluNewQuadric();
+	chr->shoulder = gluNewQuadric();
+	chr->neck = gluNewQuadric();
 
 	chr->texture = texture;
 
@@ -102,17 +111,18 @@ t_scene *initScene(t_scene *scene, t_gameGrid *grid)
 
 	if(scene == NULL)
 		scene = malloc(sizeof(*scene));
+	double margin = 0.01;
 
 	scene->minPos[0] = - grid->cellSize/2;
-	scene->minPos[1] = 0;
+	scene->minPos[1] = - margin;
 	scene->minPos[2] = - grid->cellSize/2;
 
 	scene->maxPos[0] = grid->w*grid->cellSize - grid->cellSize/2;
-	scene->maxPos[1] = FHEIGHT/3;
+	scene->maxPos[1] = FHEIGHT/3 + margin;
 	scene->maxPos[2] = grid->h*grid->cellSize - grid->cellSize/2;
 
 	int i;
-	double margin = 0.01;
+
 	for(i=0 ; i<3 ; i++)
 	{
 		scene->maxPos[i] -= margin;

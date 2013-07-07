@@ -3,6 +3,7 @@
 
 #include "definitions.h"
 #include "gameGrid.h"
+#include "draw.h"
 
 /**
   * inicializa o personagem

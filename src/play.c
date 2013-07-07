@@ -22,7 +22,7 @@ char should_rotate = 1;
 const char gFloorFile[] = "textures/floor.png";
 const char gWallFile[] = "textures/wall.jpg";
 const char gSkyFile[] = "textures/bluesky.jpg";
-const char gDudeFile[] = "textures/stick.png";
+const char gDudeFile[] = "textures/paintWheel.jpg";
 
 double gravity[3] = {0,-0.005,0};
 double crossWidth = 2;
@@ -60,6 +60,10 @@ void play(t_gameData *game)
 		{
 			if(event.type == SDL_QUIT)
 				play = 0;
+			else if(event.type == SDL_KEYDOWN)
+			{
+				treatKeyDownCharacters(dudes,&event);
+			}
 			else if(event.type == SDL_MOUSEMOTION)
 			{
 				if(event.motion.x != WIDTH/2 || event.motion.y != HEIGHT/2)

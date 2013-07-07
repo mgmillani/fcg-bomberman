@@ -1,6 +1,8 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
+#include <SDL/SDL.h>
+
 #include "definitions.h"
 
 /**
@@ -22,6 +24,11 @@ void moveCharacter(t_character *chr);
   * atualiza para onde o personagem esta olhando baseando-se no movimento do mouse
   */
 void treatMouseMovement(t_character *chr, int deltax, int deltay);
+
+/**
+  * trata um evento do tipo SDL_KEYDOWN
+  */
+void treatKeyDownCharacters(t_character *chr,SDL_Event *event);
 
 /**
   * determina o movimento do personagem com base nas teclas pressionadas

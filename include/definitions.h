@@ -27,24 +27,25 @@ typedef struct s_character
 	double dir[3];  //cartesian coordinates - direction of movement
 	double look[3]; //spherical coordinates (r,theta,phi) - where the character is looking
 
-	char jumping;
-	char crouching;
+	char firstPerson;
 
-	double headBob;
 	double height;
-	double jumpStr;
 	double walkSpeed;
 	double rotation;
+
+	double wheelRot;    //rotacao da roda, em graus
+	double wheelNorm[3];//vetor normal ao sentido da rotacao da roda
+	double wheelRadius;
+	double neckHeight;
+	GLUquadric *wheel;
+	GLUquadric *body;
+	GLUquadric *arm;
+	GLUquadric *neck;
+	GLUquadric *shoulder;
 
 	GLuint texture;
 
 }t_character;
-
-typedef struct s_camera
-{
-	double pos[3];
-	double rot[3]; //spherical coordinates (r,theta,phi)
-}t_camera;
 
 typedef struct s_rect3
 {

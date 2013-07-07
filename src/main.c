@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	}
 
 	t_gameData data;
-	loadMap("config","Factory",&data);
+	loadMap("config","Empty",&data);
 
 	play(&data);
 

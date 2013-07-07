@@ -44,6 +44,29 @@ void listAppend(t_list *list,void *key,void *data)
 }
 
 /**
+  * remove o dado nodo da lista
+  */
+void listRemoveNode(t_list *list, t_listNode *node)
+{
+	//primeiro da lista
+	if(node->prev == NULL)
+		list->first = node->next;
+	else
+		node->prev->next = node->next;
+
+	//ultimo nodo
+	if(node->next == NULL)
+		list->last = node->prev;
+	else
+		node->next->prev = node->prev;
+
+	list->length--;
+	free(node);
+
+
+}
+
+/**
 	*	libera a memoria ocupada pelos dados e chaves (utilizando os destrutores dados) e pelos nodos da lista,
 	*	mas nao libera o descritor
 	* destrutores NULL nao sao usados

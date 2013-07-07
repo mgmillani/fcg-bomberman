@@ -11,8 +11,11 @@ typedef struct s_gameData
 	t_gameGrid *grid;
 	t_gridTextures *textures;
 	t_list bombs;
+	t_list explosions;
 	GLuint bombTexture;
 	GLuint fuseTexture;
+	GLuint fireTexture;
+	GLuint smokeTexture;
 }t_gameData;
 
 /**

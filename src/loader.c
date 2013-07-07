@@ -20,6 +20,8 @@ const char gFloorKeyword[] = "floor";
 const char gCeilingKeyword[] = "ceiling";
 const char gBombKeyword[] = "bomb";
 const char gFuseKeyword[] = "fuse";
+const char gFireKeyword[] = "fire";
+const char gSmokeKeyword[] = "smoke";
 
 t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 {
@@ -78,12 +80,16 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	t_gridTextures *textures = loadTextures(mapInfo,NULL);
 	//bomba
 	t_abp *path = abpSearchNode(gBombKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
-	ERR("bomb: %s\n",path->data);
 	data->bombTexture = loadTexture(path->data);
 	//pavio
 	path = abpSearchNode(gFuseKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
-	ERR("fuse: %s\n",path->data);
 	data->fuseTexture = loadTexture(path->data);
+	//fogo
+	path = abpSearchNode(gFireKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	data->fireTexture = loadTexture(path->data);
+	//fumaca
+	path = abpSearchNode(gSmokeKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	data->smokeTexture = loadTexture(path->data);
 	//carrega o grid
 	path = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	t_gameGrid *grid = loadGrid(path->data,NULL);

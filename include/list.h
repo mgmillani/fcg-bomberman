@@ -42,6 +42,11 @@ void listDestroyData(t_list *list,void (*keyDestructor)(void *key), void (*dataD
 void listAppend(t_list *list,void *key,void *data);
 
 /**
+  * remove o dado nodo da lista
+  */
+void listRemoveNode(t_list *list, t_listNode *node);
+
+/**
 	*	concatena as duas listas, aumentando a da esquerda e fazendo uma copia
 	*	da lista da direita
 	*/
@@ -49,7 +54,7 @@ void listExtendCopy(t_list *left,t_list *right);
 
 /**
 	*	concatena as duas listas, aumentando a da esquerda e fazendo uma copia
-	*	dos dados e das cahves da lista da direita usando as funcoes dadas
+	*	dos dados e das chaves da lista da direita usando as funcoes dadas
 	*	a funcao de copia deve alocar um ponteiro para a estrutura desejada, copiar os dados
 	*	e retornar esse ponteiro
 	*/

@@ -104,8 +104,6 @@ void treatCharacterAction(t_character *chr,t_gameData *data)
 		{
 			//determina a posicao do personagem
 			int x,y;
-			//ERR("CHR: %.2lf %.2lf\n",chr->pos[0],chr->pos[2]);
-			//ERR("Cell: %.2lf\n",grid->cellSize);
 			x = (chr->pos[0] + grid->cellSize/2)/grid->cellSize;
 			y = (chr->pos[2] + grid->cellSize/2)/grid->cellSize;
 			//determina para onde ele esta olhando
@@ -119,8 +117,6 @@ void treatCharacterAction(t_character *chr,t_gameData *data)
 			else if(chr->dir[2] < -0.5)
 				dy = -1;
 
-			//ERR("Dir: %.2lf %.2lf\n",chr->dir[0],chr->dir[2]);
-
 			//personagem nao esta olhando diretamente para nenhuma celula
 			if(dx + dy == 0)
 				break;
@@ -128,8 +124,6 @@ void treatCharacterAction(t_character *chr,t_gameData *data)
 			//verifica se a posicao a frente do personagem esta livre
 			x += dx;
 			y += dy;
-			//ERR("X: %d\tY:%d\n",x,y);
-			//ERR("dX: %d\tdY:%d\n",dx,dy);
 			//verifica se esta dentro dos limites
 			if(x >= grid->w || x<0)
 				break;
@@ -158,8 +152,6 @@ void treatKeyStateCharacter(t_character *character, Uint8 *keystate,int numKeys)
 	unsigned int i;
 	double speed = character->walkSpeed;
 	double moveDir[3] = {};
-
-	//double freq = 0.13;
 
 	//move o personagem para frente
 	if(keystate[SDLK_w]==1)

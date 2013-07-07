@@ -58,6 +58,13 @@ typedef struct s_rect3
 
 }t_rect3;
 
+typedef struct s_particle
+{
+	t_rect3 pos;
+	double vel[3];
+	double acc[3];
+}t_particle;
+
 typedef struct s_scene
 {
 	double minPos[3];	//limites da cena

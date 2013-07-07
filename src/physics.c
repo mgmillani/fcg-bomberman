@@ -67,3 +67,17 @@ void forceWithinScene(t_character *chr, t_scene *scene)
 	}
 }
 
+/**
+  * atualiza os vetores da particula
+  */
+void moveParticle(t_particle *part)
+{
+	unsigned int i;
+	for(i=0 ; i<3 ; i++)
+	{
+		part->pos.pos[i] += part->vel[i];
+		part->vel[i] += part->acc[i];
+		part->acc[i] = 0;
+	}
+
+}

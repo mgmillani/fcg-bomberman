@@ -1,7 +1,14 @@
+#include <math.h>
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 
+#include "play.h"
 #include "bomb.h"
+#include "physics.h"
+#include "draw.h"
+
+#include "definitions.h"
 
 /**
   * desenha uma bomba
@@ -54,8 +61,163 @@ t_bomb *bombCreate(t_bomb *bomb, GLuint body, GLuint fuse, unsigned int power, u
 	return bomb;
 }
 
+void bombDestroy(t_bomb *bomb)
+{
+	gluDeleteQuadric(bomb->body);
+	gluDeleteQuadric(bomb->fuse);
+}
 
+/**
+  * explode as bombas cujo pavio acabou
+  */
+void checkBombExplosion(t_gameData *data)
+{
+	t_listNode *node,*aux;
+	Uint32 t1 = SDL_GetTicks();
 
+	for(node=data->bombs.first ; node!=NULL ; node=aux)
+	{
+		aux = node->next;
+		//verifica se a bomba explodiu
+		t_bomb *bomb = node->key;
+		if(t1 - bomb->t0 > bomb->delay)
+		{
+			//cria uma explosao para cada direcao
+			t_explosion *exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],1,0,data->grid->cellSize);
+			listAppend(&data->explosions,exp,NULL);
+			exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],0,1,data->grid->cellSize);
+			listAppend(&data->explosions,exp,NULL);
+			exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],-1,0,data->grid->cellSize);
+			listAppend(&data->explosions,exp,NULL);
+			exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],0,-1,data->grid->cellSize);
+			listAppend(&data->explosions,exp,NULL);
+
+			//destroi a bomba
+			bombDestroy(bomb);
+			free(bomb);
+			listRemoveNode(&(data->bombs),node);
+		}
+	}
+
+}
+
+/**
+  * cria uma explosao no ponto especificado
+  */
+t_explosion *explosionCreate(t_explosion *explosion, GLuint smoke, GLuint fire, unsigned int power,unsigned int x, unsigned int y, int dx, int dy,double cellSize)
+{
+	if(explosion == NULL)
+		explosion = malloc(sizeof(*explosion));
+
+	explosion->pos[0] = x;
+	explosion->pos[1] = y;
+	explosion->dir[0] = dx;
+	explosion->dir[1] = dy;
+	explosion->power = power;
+	explosion->smoke = smoke;
+	explosion->fire = fire;
+
+	explosion->t0 = SDL_GetTicks();
+	explosion->delay = 222;
+
+	//cria as particulas para fogo e fumaca
+	unsigned int i;
+	for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
+	{
+		generateRandomParticle(explosion->fireParticle+i,0.2*cellSize,explosion->dir);
+		generateRandomParticle(explosion->smokeParticle+i,0.2*cellSize,explosion->dir);
+	}
+
+	return explosion;
+}
+
+/**
+  * simula o efeito das explosoes
+  */
+void simulateExplosion(t_gameData *data)
+{
+	t_listNode *node;
+	for(node=data->explosions.first ; node!=NULL ; node=node->next)
+	{
+		//move as particulas
+		t_explosion *exp = node->key;
+		unsigned int i;
+		for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
+		{
+			moveParticle(exp->fireParticle+i);
+			moveParticle(exp->smokeParticle+i);
+			exp->smokeParticle[i].acc[1]+=0.0001;
+		}
+	}
+}
+
+/**
+  * desenha as explosoes
+  */
+void drawExplosions(t_gameData *data)
+{
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_CULL_FACE);
+	glBindTexture(GL_TEXTURE_2D,data->fireTexture);
+	glPushMatrix();
+	double cellSize = data->grid->cellSize;
+	t_listNode *node;
+	for(node=data->explosions.first ; node!=NULL ; node=node->next)
+	{
+		//desenha cada particula
+		t_explosion *exp = node->key;
+		double dx = exp->pos[0]*cellSize;
+		double dy = exp->pos[1]*cellSize;
+		glTranslated(dx,0,dy);
+		unsigned int i;
+		for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
+			drawRectangle(&exp->fireParticle[i].pos,1.0,1.0);
+		glTranslated(-dx,0,-dy);
+	}
+
+	glBindTexture(GL_TEXTURE_2D,data->smokeTexture);
+
+	for(node=data->explosions.first ; node!=NULL ; node=node->next)
+	{
+		//desenha cada particula
+		t_explosion *exp = node->key;
+		double dx = exp->pos[0]*cellSize;
+		double dy = exp->pos[1]*cellSize;
+		glTranslated(dx,0,dy);
+		unsigned int i;
+		for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
+			drawRectangle(&exp->smokeParticle[i].pos,1.0,1.0);
+		glTranslated(-dx,0,-dy);
+	}
+	glPopMatrix();
+	glEnable(GL_CULL_FACE);
+}
+
+/**
+  * gera uma particula numa regiao aleatorio no espaco [0,cellSize]^3
+  */
+void generateRandomParticle(t_particle *particle,double cellSize,int direction[2])
+{
+	particle->pos.v[0] = 0;
+	particle->pos.v[1] = 0.1;
+	particle->pos.v[2] = 0;
+
+	double r = (double)rand()/RAND_MAX;
+	particle->pos.w[0] = r*0.1;
+	particle->pos.w[1] = 0;
+	particle->pos.w[2] = 0.1*sqrt(1 - r*r);
+
+	unsigned int i;
+	for(i=0 ; i<3 ; i++)
+	{
+		particle->pos.pos[i] = cellSize*(double)rand()/RAND_MAX;
+		particle->acc[i] = 0;
+	}
+	particle->vel[0] = direction[0]*(0.01*((double)rand()/RAND_MAX)+0.01);
+	particle->vel[1] = 0;
+	particle->vel[2] = direction[1]*(0.01*((double)rand()/RAND_MAX)+0.01);
+
+}
 
 
 

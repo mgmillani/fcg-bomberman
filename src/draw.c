@@ -178,4 +178,5 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
 	//glDisable(GL_TEXTURE_2D);
 	drawCharacter(chr);
 	drawBombs(&(game->bombs),game->grid->cellSize);
+	drawExplosions(game);
 }

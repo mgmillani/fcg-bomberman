@@ -86,12 +86,16 @@ void play(t_gameData *game)
 		treatKeyStateCharacter(dudes, keystate, numKeys);
 		updateCharacterWalkDir(dudes);
 		treatCharacterAction(dudes,game);
-		//moveDudes(dudes+1,numDudes-1);
+
 		simulatePhysics(dudes,numDudes,&scene,gravity);
-		//ERR("Char pos: %.2lf %.2lf %.2lf\n",dudes->pos[0],dudes->pos[1],dudes->pos[2]);
+		//verifica se alguma bomba explodiu
+		checkBombExplosion(game);
+		simulateExplosion(game);
+
+		//desenha a cena
 		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
+
 		SDL_GL_SwapBuffers();
-		//draw_screen();
 		controlFramerate(frameControl);
 	}
 

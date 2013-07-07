@@ -23,6 +23,10 @@ const char gFloorFile[] = "textures/floor.png";
 const char gWallFile[] = "textures/wall.jpg";
 const char gSkyFile[] = "textures/bluesky.jpg";
 const char gDudeFile[] = "textures/paintWheel.jpg";
+const char gEnemyAFile[] = "textures/enemya.jpg";
+const char gEnemyBFile[] = "textures/enemyb.jpg";
+const char gEnemyCFile[] = "textures/enemyc.jpg";
+const char gEnemyDFile[] = "textures/enemyd.jpg";
 
 double gravity[3] = {0,-0.005,0};
 double crossWidth = 2;
@@ -39,6 +43,15 @@ void play(t_gameData *game)
 	initCharacter(dudes,dudeTex,game->grid);
 	t_camera camera;
 	initCamera(&camera,dudes);
+
+	//inimigos
+	int numEnemies = 1;
+	GLuint enemiesTex = loadTexture(gEnemyAFile);
+	//GLuint enemiesBTex = loadTexture(gEnemyBFile);
+	//GLuint enemiesCTex = loadTexture(gEnemyCFile);
+	//GLuint enemiesDTex = loadTexture(gEnemyDFile);
+	e_character *enemies = malloc(numEnemies*sizeof(e_character));
+	initEnemies(enemies,enemiesTex,game->grid);
 
 	//lista para as bombas
 	t_list bombs;
@@ -93,7 +106,7 @@ void play(t_gameData *game)
 		simulateExplosion(game);
 
 		//desenha a cena
-		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
+		drawScene(&scene,&camera,dudes,enemies,numDudes,WIDTH,HEIGHT,crossWidth,game);
 
 		SDL_GL_SwapBuffers();
 		controlFramerate(frameControl);

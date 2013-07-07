@@ -84,6 +84,70 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 }
 
 /**
+  * inicializa os inimigos
+  * se o ponteiro passado for NULL, aloca um novo personagem
+  */
+e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid)
+{
+	if(chra == NULL)
+		chra = malloc(sizeof(*chra));
+
+	unsigned int i;
+	for(i=0 ; i<3 ; i++)
+	{
+		chra->vel[i] = 0;
+		chra->acc[i] = 0;
+	}
+	//escolhe um spawn point aleatorio para colocar o personagem
+	int point = randrange(grid->spawnPoints-1);
+	unsigned int j,pos;
+	for(i=pos=0 ; i< grid->h && point>=0 ; i++)
+	{
+		for(j=0 ; j<grid->w && point>=0 ; j++,pos++)
+		{
+			if(grid->grid[pos] == Spawn)
+				point--;
+			// coloca o jogador naquela posicao
+			if(point < 0)
+			{
+				grid->grid[pos] = Empty;
+				chra->pos[0] = j*grid->cellSize;
+				chra->pos[1] = 1.0;
+				chra->pos[2] = i*grid->cellSize;
+				grid->spawnPoints--;
+			}
+		}
+	}
+
+	chra->dir[0] = 1;
+	chra->dir[1] = 0;
+	chra->dir[2] = 0;
+	chra->look[0] = 1;
+	chra->look[1] = PI/2;
+	chra->look[2] = 0;
+
+	chra->height = 0.65;
+	chra->walkSpeed = WALKSPEED;
+	chra->rotation = PI/30;
+
+	chra->wheelRot = 0;
+	chra->wheelNorm[0] = 1;
+	chra->wheelNorm[1] = 0;
+	chra->wheelNorm[2] = 0;
+	chra->wheelRadius = 0.1;
+	chra->neckHeight = 0.01;
+	chra->wheel = gluNewQuadric();
+	chra->body = gluNewQuadric();
+	chra->arm = gluNewQuadric();
+	chra->shoulder = gluNewQuadric();
+	chra->neck = gluNewQuadric();
+
+	chra->texture = texture;
+
+	return chra;
+}
+
+/**
   * inicializa a camera
   * se o ponteiro passado for NULL, aloca uma camera nova
   */

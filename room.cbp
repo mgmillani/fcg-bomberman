@@ -41,6 +41,7 @@
 		<Unit filename="include/debugOFF.h" />
 		<Unit filename="include/definitions.h" />
 		<Unit filename="include/draw.h" />
+		<Unit filename="include/enemies.h" />
 		<Unit filename="include/frameControl.h" />
 		<Unit filename="include/gameGrid.h" />
 		<Unit filename="include/gameLogic.h" />
@@ -71,6 +72,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/draw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/enemies.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/frameControl.c">

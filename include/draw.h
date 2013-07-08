@@ -37,11 +37,16 @@ void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY);
 void drawCharacter(t_character *chr);
 
 /**
+  * desenha os inimigos em suas devidas posições
+  */
+void drawEnemies(e_character *chra);
+
+/**
   * desenha as bombas
   */
 void drawBombs(t_list *bombs, double cellSize);
 
-void drawScene(t_scene *scene,t_camera *cameram,t_character *chr,int numChars,int width,int height,double crossWidth,t_gameData *game);
+void drawScene(t_scene *scene,t_camera *cameram,t_character *chr,e_character *chra,int numChars,int width,int height,double crossWidth,t_gameData *game);
 
 #endif // DRAW_H
 

@@ -50,6 +50,35 @@ typedef struct s_character
 
 }t_character;
 
+//inimigo
+typedef struct m_character
+{
+	double pos[3];
+	double vel[3];
+	double acc[3];
+	double dir[3];  //cartesian coordinates - direction of movement
+	double look[3]; //spherical coordinates (r,theta,phi) - where the character is looking
+
+	char firstPerson;
+
+	double height;
+	double walkSpeed;
+	double rotation;
+
+	double wheelRot;    //rotacao da roda, em graus
+	double wheelNorm[3];//vetor normal ao sentido da rotacao da roda
+	double wheelRadius;
+	double neckHeight;
+	GLUquadric *wheel;
+	GLUquadric *body;
+	GLUquadric *arm;
+	GLUquadric *neck;
+	GLUquadric *shoulder;
+
+	GLuint texture;
+
+}e_character;
+
 typedef struct s_rect3
 {
 	double pos[3];//coordenada de um dos cantos

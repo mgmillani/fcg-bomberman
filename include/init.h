@@ -12,6 +12,12 @@
 t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid);
 
 /**
+  * inicializa os inimigos
+  * se o ponteiro passado for NULL, aloca um novo personagem
+  */
+e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid);
+
+/**
   * inicializa a camera
   * se o ponteiro passado for NULL, aloca uma camera nova
   */

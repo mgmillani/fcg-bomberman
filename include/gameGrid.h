@@ -47,6 +47,11 @@ t_gameGrid *gameGridInit(t_gameGrid *,unsigned int w, unsigned int h);
 t_gameGrid *gameGridLoad(t_gameGrid *,const char *fname,t_colorMap *);
 
 /**
+  * transforma todas as ocorrencias de Fire por Empty
+  */
+void cleanFire(t_gameGrid *grid);
+
+/**
   * escreve os dados da grid na tela
   */
 void gameGridPrint(t_gameGrid*);

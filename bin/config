@@ -15,5 +15,7 @@
 	weak = textures/factory/blue-metal.jpg
 	strong = textures/factory/yellow-metal.jpg
 	map = maps/factory.png
-	bomb = textures/factory/bombB.jpg
-	fuse = textures/factory/fuseB.jpg
+	bomb = textures/factory/fuseC.jpg
+	fuse = textures/factory/fuseC.jpg
+	fire = textures/factory/fire.jpg
+	smoke = textures/factory/smoke.jpg

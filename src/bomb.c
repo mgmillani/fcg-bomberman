@@ -136,12 +136,62 @@ t_explosion *explosionCreate(t_explosion *explosion, GLuint smoke, GLuint fire, 
   */
 void simulateExplosion(t_gameData *data)
 {
-	t_listNode *node;
-	for(node=data->explosions.first ; node!=NULL ; node=node->next)
+	t_listNode *node,*aux;
+	Uint32 t1 = SDL_GetTicks();
+	for(node=data->explosions.first ; node!=NULL ; node=aux)
 	{
+		aux = node->next;
 		//move as particulas
 		t_explosion *exp = node->key;
+		//verifica se alguma parede foi destruida
+		int range = exp->power*(1-(t1 - exp->t0)/exp->delay);
+		//destroi a explosao
+		if(range > exp->power)
+		{
+			listRemoveNode(&data->explosions,node);
+			continue;
+		}
+		int x = exp->pos[0];
+		int y = exp->pos[1];
+		if(x < 0)
+			x=0;
+		else if(x >= data->grid->w)
+			x = data->grid->w-1;
+
+		if(y < 0)
+			y=0;
+		else if(y >= data->grid->h)
+			y = data->grid->h-1;
+
 		unsigned int i;
+		int pos;
+		for(i=0 ; i<range ; i++)
+		{
+			pos = x + y*data->grid->w;
+			data->grid->grid[pos] = Fire;
+			x+= exp->dir[0];
+			y+= exp->dir[1];
+
+			if(x < 0)
+				x=0;
+			else if(x >= data->grid->w)
+				x = data->grid->w-1;
+
+			if(y < 0)
+				y=0;
+			else if(y >= data->grid->h)
+				y = data->grid->h-1;
+		}
+
+		//se for um muro indestrutivel, para a expansao
+		pos = x + y*data->grid->w;
+		if(data->grid->grid[pos] == UnbreakableWall)
+			exp->power = range-1;
+		//se for qualquer outra coisa, destroi
+		else
+			data->grid->grid[pos] = Fire;
+
+
 		for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
 		{
 			moveParticle(exp->fireParticle+i);

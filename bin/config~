@@ -1,6 +1,0 @@
-[Factory]
-	floor = textures/factory/black-metal.jpg
-	ceiling = textures/factory/red-metal.jpg
-	weak = textures/factory/blue-metal.jpg
-	strong = textures/factory/yellow-metal.jpg
-	map = maps/factory.png

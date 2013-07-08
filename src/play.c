@@ -103,6 +103,8 @@ void play(t_gameData *game)
 		simulatePhysics(dudes,numDudes,&scene,gravity);
 		//verifica se alguma bomba explodiu
 		checkBombExplosion(game);
+		//tira o fogo do cenario
+		cleanFire(game->grid);
 		simulateExplosion(game);
 
 		//desenha a cena

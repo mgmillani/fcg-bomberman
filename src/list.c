@@ -62,8 +62,6 @@ void listRemoveNode(t_list *list, t_listNode *node)
 
 	list->length--;
 	free(node);
-
-
 }
 
 /**

@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 	}
 
 	t_gameData data;
-	loadMap("config","Empty",&data);
+	loadMap("config","Factory",&data);
 	listInit(&(data.bombs));
 	listInit(&(data.explosions));
 

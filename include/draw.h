@@ -39,7 +39,7 @@ void drawCharacter(t_character *chr);
 /**
   * desenha os inimigos em suas devidas posições
   */
-void drawEnemies(e_character *chra);
+void drawEnemies(e_character *chra,unsigned int numEnemies);
 
 /**
   * desenha o minimapa na tela
@@ -51,7 +51,7 @@ void drawMinimap(t_gameGrid *grid,t_minimap *colors);
   */
 void drawBombs(t_list *bombs, double cellSize);
 
-void drawScene(t_scene *scene,t_camera *cameram,t_character *chr,e_character *chra,int numChars,int width,int height,double crossWidth,t_gameData *game);
+void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int width,int height, double crossWidth,t_gameData *game);
 
 #endif // DRAW_H
 

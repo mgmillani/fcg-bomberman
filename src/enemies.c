@@ -90,3 +90,39 @@ void drawEnemy(e_character *chra)
 	glPopMatrix();
 
 }
+
+/**
+  * coloca um inimigo em cada EnemySpawnpoint
+  */
+void createEnemies(t_gameData *data)
+{
+	t_gameGrid *grid = data->grid;
+
+	data->enemies = malloc(sizeof(*data->enemies)*grid->enemySpawnPoints);
+	data->numEnemies = grid->enemySpawnPoints;
+	unsigned int x,y,pos;
+	unsigned int e=0;
+	for(pos=0,y=0 ; y<grid->h ; y++)
+	{
+		for(x=0 ; x<grid->w ; x++,pos++)
+		{
+			if(grid->grid[pos] == EnemySpawn)
+			{
+				initEnemies(data->enemies+e,data->bombTexture);
+				data->enemies[e].pos[0] = x*grid->cellSize;
+				data->enemies[e].pos[1] = 0;
+				data->enemies[e].pos[2] = y*grid->cellSize;
+				e++;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

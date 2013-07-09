@@ -36,7 +36,17 @@ int init(int width,int height,int bpp,int options)
 
 	//opengl stuff
 	glEnable(GL_CULL_FACE);
-	glClearColor(0.05f,0.25f,0.70f,0.0f);
+
+	GLfloat density = 0.3;
+	GLfloat fogColor[4] = {0.2,0.15,0.1,1};
+	glEnable(GL_FOG);
+	glFogf (GL_FOG_START, 5);
+	glFogf (GL_FOG_END, 15.1);
+	glFogi(GL_FOG_MODE,GL_LINEAR);
+	glFogfv(GL_FOG_COLOR,fogColor);
+	glFogf(GL_FOG_DENSITY,density);
+
+	glClearColor(0.2f,0.15f,0.1f,0.0f);
 	glViewport(0,0,width,height);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
@@ -64,7 +74,7 @@ int main(int argc, char **argv)
 	}
 
 	t_gameData data;
-	loadMap("config","Factory",&data);
+	loadMap("config","Empty",&data);
 	listInit(&(data.bombs));
 	listInit(&(data.explosions));
 

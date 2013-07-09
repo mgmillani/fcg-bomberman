@@ -72,7 +72,7 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 
 	chr->height = 0.65;
 	chr->walkSpeed = WALKSPEED;
-	chr->power = 1;
+	chr->power = 10;
 	chr->rotation = PI/30;
 
 	chr->wheelRot = 0;
@@ -97,7 +97,7 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
   * inicializa os inimigos
   * se o ponteiro passado for NULL, aloca um novo personagem
   */
-e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid)
+e_character *initEnemies(e_character *chra,GLuint texture)
 {
 	if(chra == NULL)
 		chra = malloc(sizeof(*chra));
@@ -109,7 +109,7 @@ e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid)
 		chra->acc[i] = 0;
 	}
 	//escolhe um spawn point aleatorio para colocar o personagem
-	int point = randrange(grid->enemySpawnPoints-1);
+	/*int point = randrange(grid->enemySpawnPoints-1);
 	unsigned int j,pos;
 	for(i=pos=0 ; i< grid->h && point>=0 ; i++)
 	{
@@ -127,7 +127,7 @@ e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid)
 				grid->spawnPoints--;
 			}
 		}
-	}
+	}*/
 
 	chra->dir[0] = 1;
 	chra->dir[1] = 0;

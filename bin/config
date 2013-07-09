@@ -8,10 +8,11 @@
 	fuse = textures/factory/fuseC.jpg
 	fire = textures/factory/fire.jpg
 	smoke = textures/factory/smoke.jpg
-	powerup_border = textures/powerups/border.jpg
+	border = textures/powerups/border.jpg
 	bomb_powerup = textures/powerups/bomb.jpg
 	speed_powerup = textures/powerups/speed.jpg
 	power_powerup = textures/powerups/power.jpg
+	enemy = textures/factory/bombA.jpg
 
 [Factory]
 	floor = textures/factory/black-metal.jpg
@@ -27,3 +28,4 @@
 	bomb_powerup = textures/powerups/bomb.jpg
 	speed_powerup = textures/powerups/speed.jpg
 	power_powerup = textures/powerups/power.jpg
+	enemy = textures/factory/bombA.jpg

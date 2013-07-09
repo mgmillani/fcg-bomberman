@@ -44,15 +44,6 @@ void play(t_gameData *game)
 	t_camera camera;
 	initCamera(&camera,dudes);
 
-	//inimigos
-	int numEnemies = 1;
-	GLuint enemiesTex = loadTexture(gEnemyAFile);
-	//GLuint enemiesBTex = loadTexture(gEnemyBFile);
-	//GLuint enemiesCTex = loadTexture(gEnemyCFile);
-	//GLuint enemiesDTex = loadTexture(gEnemyDFile);
-	e_character *enemies = malloc(numEnemies*sizeof(e_character));
-	initEnemies(enemies,enemiesTex,game->grid);
-
 	//lista para as bombas
 	t_list bombs;
 	listInit(&bombs);
@@ -107,8 +98,10 @@ void play(t_gameData *game)
 		cleanFire(game->grid);
 		simulateExplosion(game);
 
+		enemyAI(data);
+
 		//desenha a cena
-		drawScene(&scene,&camera,dudes,enemies,numDudes,WIDTH,HEIGHT,crossWidth,game);
+		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
 
 		SDL_GL_SwapBuffers();
 		controlFramerate(frameControl);

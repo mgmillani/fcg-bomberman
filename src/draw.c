@@ -62,6 +62,7 @@ void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 	}
 
 	t_rect3 floor;
+	floor.pos[1] = 0;
 	floor.v[0] = size[0];
 	floor.v[1] = 0;
 	floor.v[2] = 0;
@@ -154,13 +155,17 @@ void drawCharacter(t_character *chr)
 /**
   * desenha os inimigos em suas devidas posições
   */
-void drawEnemies(e_character *chra)
+void drawEnemies(e_character *chra,unsigned int numEnemies)
 {
-	glPushMatrix();
-	glTranslated(chra->pos[0],chra->pos[1]+chra->wheelRadius,chra->pos[2]);
-	glColor3f(1.0,1.0,1.0);
-	drawEnemy(chra);
-	glPopMatrix();
+	unsigned int i;
+	for(i=0 ; i<numEnemies ; i++)
+	{
+		glPushMatrix();
+		glTranslated(chra[i].pos[0],chra[i].pos[1]+chra[i].wheelRadius,chra[i].pos[2]);
+		//glColor3f(1.0,1.0,1.0);
+		drawEnemy(chra+i);
+		glPopMatrix();
+	}
 }
 
 
@@ -182,7 +187,7 @@ void drawBombs(t_list *bombs, double cellSize)
 	}
 }
 
-void drawScene(t_scene *scene,t_camera *camera,t_character *chr,e_character *chra,int numChars,int width,int height, double crossWidth,t_gameData *game)
+void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int width,int height, double crossWidth,t_gameData *game)
 {
 
 	//projecao em perspectiva
@@ -206,7 +211,7 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,e_character *chr
 	drawGrid(game,game->textures,3.0);
 	//glDisable(GL_TEXTURE_2D);
 	drawCharacter(chr);
-	drawEnemies(chra);
+	drawEnemies(game->enemies,game->numEnemies);
 	drawBombs(&(game->bombs),game->grid->cellSize);
 	drawExplosions(game);
 

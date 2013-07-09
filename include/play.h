@@ -22,6 +22,10 @@ typedef struct s_gameData
 	GLuint fireTexture;
 	GLuint smokeTexture;
 
+	GLuint enemyTexture;
+	e_character *enemies;
+	unsigned int numEnemies;
+
 	t_powerup bombPowerup;
 	t_powerup powerPowerup;
 	t_powerup speedPowerup;

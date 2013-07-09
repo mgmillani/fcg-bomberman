@@ -27,6 +27,7 @@ const char gBorderPWKeyword[] = "border";
 const char gBombPWKeyword[] = "bomb_powerup";
 const char gSpeedPWKeyword[] = "speed_powerup";
 const char gPowerPWKeyword[] = "power_powerup";
+const char gEnemyKeyword[] = "enemy";
 
 t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 {
@@ -116,6 +117,10 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	path = abpSearchNode(gPowerPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	pw = loadTexture(path->data);
 	powerupInit(&data->powerPowerup,0.3,border,pw);
+	//textura do inimigo
+	path = abpSearchNode(gEnemyKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	data->enemyTexture = loadTexture(path->data);
+	ERR("E Tex: %s\n",path->data);
 
 	//carrega o grid
 	path = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
@@ -123,6 +128,9 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 
 	data->grid = grid;
 	data->textures = textures;
+
+	//cria os inimigos
+	createEnemies(data);
 
 	return data;
 }

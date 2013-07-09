@@ -45,6 +45,7 @@
 		<Unit filename="include/frameControl.h" />
 		<Unit filename="include/gameGrid.h" />
 		<Unit filename="include/gameLogic.h" />
+		<Unit filename="include/ia.h" />
 		<Unit filename="include/init.h" />
 		<Unit filename="include/list.h" />
 		<Unit filename="include/loader.h" />
@@ -82,6 +83,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gameGrid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/ia.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/init.c">

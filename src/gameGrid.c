@@ -23,6 +23,7 @@ t_gameGrid *gameGridInit(t_gameGrid *grid,unsigned int w, unsigned int h)
 	grid->h = h;
 	grid->cellSize = 1.0;
 	grid->spawnPoints = 0;
+	grid->enemySpawnPoints = 0;
 	grid->grid = malloc(max*sizeof(*grid->grid));
 	for(i=0 ; i<max ; i++)
 		grid->grid[i] = Empty;

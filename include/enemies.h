@@ -9,6 +9,11 @@
 /**
   * desenha os inimigos
   */
+void drawEnemy(e_character *chra);
+
+/**
+  * desenha os inimigos
+  */
 void drawEnemies(e_character *chra);
 
 #endif // ENEMIES_H

@@ -1,5 +1,8 @@
 #include <math.h>
 
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
+
 #include "draw.h"
 #include "build.h"
 #include "play.h"
@@ -9,6 +12,7 @@
 #include "bomb.h"
 
 #include "definitions.h"
+#include "enemies.h"
 
 #include "debug.h"
 
@@ -85,7 +89,6 @@ void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 
 	//powerups
 	double x,z;
-	glDisable(GL_CULL_FACE);
 	for(z=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,z+=size[2])
 		for(j=0,x=-size[0]/2 ; j<grid->w ; j++,pos++,x+=size[0])
 		{
@@ -105,7 +108,6 @@ void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 				glPopMatrix();
 			}
 		}
-	glEnable(GL_CULL_FACE);
 
 }
 /**
@@ -195,6 +197,7 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,e_character *chr
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_CULL_FACE);
 	glEnable(chr->lighting);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -206,4 +209,68 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,e_character *chr
 	drawEnemies(chra);
 	drawBombs(&(game->bombs),game->grid->cellSize);
 	drawExplosions(game);
+
+	//desenha o minimapa
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_CULL_FACE);
+	gluOrtho2D(-1,1,-1,1);
+	glTranslatef(-1,-1,0);
+	glScalef(0.2,0.2,1.0);
+	drawMinimap(game->grid,&game->minimap);
 }
+
+/**
+  * desenha o minimapa na tela
+  */
+void drawMinimap(t_gameGrid *grid,t_minimap *colors)
+{
+
+	double x,y;
+	double cellSize = 0.1;
+	double x0 = -cellSize*grid->w/2;
+	x = 0;
+	//y = -cellSize*grid->h/2;
+	y=0;
+
+	int i,j;
+	int pos=0;
+	for(i=0 ; i<grid->h ; i++,y+=cellSize)
+	{
+		for(x=0,j=0 ; j<grid->w ; pos++,j++,x+=cellSize)
+		{
+			switch(grid->grid[pos])
+			{
+				case BreakableWall:
+					glColor3fv(colors->breakable);
+					break;
+				case UnbreakableWall:
+					glColor3fv(colors->unbreakable);
+					break;
+				case Fire:
+					glColor3fv(colors->fire);
+					break;
+				default:
+					glColor3fv(colors->floor);
+			}
+
+			glBegin(GL_QUADS);
+			glVertex2f(x,y);
+			glVertex2f(x,y+cellSize);
+			glVertex2f(x+cellSize,y+cellSize);
+			glVertex2f(x+cellSize,y);
+			glEnd();
+		}
+	}
+
+}
+
+
+
+
+
+

@@ -31,6 +31,9 @@ void updateCamTP(t_camera *camera, t_character *chr)
 	look[2] = eye[2] + sin(camera->rot[1])*cos(camera->rot[2]);
 
 	gluLookAt(eye[0],eye[1]+height,eye[2],look[0],look[1]+height,look[2],0,1,0);
+	//coloca a iluminacao no ponto certo
+	float lpos[] = {chr->pos[0] , chr->pos[1] + 1.1*chr->height , chr->pos[2],1.0};
+	glLightfv(chr->lighting, GL_POSITION, lpos);
 }
 
 /**
@@ -61,7 +64,6 @@ void updateCamFP(t_camera *camera, t_character *chr)
 	//coloca a iluminacao no ponto certo
 	float lpos[] = {chr->pos[0] , chr->pos[1] + 1.1*chr->height , chr->pos[2],1.0};
 	glLightfv(chr->lighting, GL_POSITION, lpos);
-
 
 }
 

@@ -42,6 +42,11 @@ void drawCharacter(t_character *chr);
 void drawEnemies(e_character *chra);
 
 /**
+  * desenha o minimapa na tela
+  */
+void drawMinimap(t_gameGrid *grid,t_minimap *colors);
+
+/**
   * desenha as bombas
   */
 void drawBombs(t_list *bombs, double cellSize);

@@ -109,13 +109,13 @@ e_character *initEnemies(e_character *chra,GLuint texture,t_gameGrid *grid)
 		chra->acc[i] = 0;
 	}
 	//escolhe um spawn point aleatorio para colocar o personagem
-	int point = randrange(grid->spawnPoints-1);
+	int point = randrange(grid->enemySpawnPoints-1);
 	unsigned int j,pos;
 	for(i=pos=0 ; i< grid->h && point>=0 ; i++)
 	{
 		for(j=0 ; j<grid->w && point>=0 ; j++,pos++)
 		{
-			if(grid->grid[pos] == Spawn)
+			if(grid->grid[pos] == EnemySpawn)
 				point--;
 			// coloca o jogador naquela posicao
 			if(point < 0)

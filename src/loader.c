@@ -49,6 +49,10 @@ t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 	colorMap.spawnColor[0] = 0;
 	colorMap.spawnColor[1] = 0;
 	colorMap.spawnColor[2] = 255;
+
+	colorMap.enemySpawnColor[0] = 0;
+	colorMap.enemySpawnColor[1] = 255;
+	colorMap.enemySpawnColor[2] = 255;
 	gameGridLoad(grid,fname,&colorMap);
 	//gameGridPrint(grid);
 
@@ -62,6 +66,8 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 {
 	if(data == NULL)
 		data = malloc(sizeof(*data));
+
+	createMinimapColors(data);
 
 	t_list errors;
 	listInit(&errors);

@@ -11,6 +11,8 @@
 
 #include "definitions.h"
 
+#include "debug.h"
+
 /**
   * desenha uma bomba
   */
@@ -120,7 +122,7 @@ t_explosion *explosionCreate(t_explosion *explosion, GLuint smoke, GLuint fire, 
 	explosion->fire = fire;
 
 	explosion->t0 = SDL_GetTicks();
-	explosion->delay = 222;
+	explosion->delay = 1000;
 
 	//cria as particulas para fogo e fumaca
 	unsigned int i;
@@ -146,9 +148,9 @@ void simulateExplosion(t_gameData *data)
 		//move as particulas
 		t_explosion *exp = node->key;
 		//verifica se alguma parede foi destruida
-		int range = exp->power*(1-(t1 - exp->t0)/exp->delay);
+		int range = 1+exp->power*((double)(t1 - exp->t0)/exp->delay);
 		//destroi a explosao
-		if(range > exp->power)
+		if(range > exp->power || exp->power==0)
 		{
 			listRemoveNode(&data->explosions,node);
 			continue;
@@ -168,7 +170,7 @@ void simulateExplosion(t_gameData *data)
 		unsigned int i;
 		int pos;
 		//reconstroi o rastro da explosao
-		for(i=0 ; i<range ; i++)
+		for(i=0 ; i<=range ; i++)
 		{
 			pos = x + y*data->grid->w;
 			//substitui o que for vazio
@@ -188,6 +190,8 @@ void simulateExplosion(t_gameData *data)
 				y = data->grid->h-1;
 		}
 
+		x -= exp->dir[0];
+		y -= exp->dir[1];
 		//se a explosao expandiu
 		if(range > exp->expanded)
 		{

@@ -5,6 +5,7 @@
 
 #include "gameGrid.h"
 #include "color.h"
+#include "play.h"
 
 #include "debug.h"
 
@@ -79,14 +80,12 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 	{
 		for(x=0 ; x<w ; x++,cell++)
 		{
-			//ERR("(");
 			for(z=0 ; z<c ; z++)
 			{
-				//ERR("%03d,",(int)pixels[pos]);
 				*order[z] = pixels[pos];
 				pos++;
 			}
-			//ERR(")");
+
 			//determina se a cor encontrada corresponde a algum objeto
 			if(colorCompare(color,colorMap->breakableColor,3)==0)
 				grid->grid[cell] = BreakableWall;
@@ -97,12 +96,16 @@ t_gameGrid *gameGridLoad(t_gameGrid *grid,const char *fname,t_colorMap *colorMap
 				grid->grid[cell] = Spawn;
 				grid->spawnPoints++;
 			}
+			else if(colorCompare(color,colorMap->enemySpawnColor,3)==0)
+			{
+				grid->grid[cell] = EnemySpawn;
+				grid->enemySpawnPoints++;
+			}
 			else
 				grid->grid[cell] = Empty;
 		}
 		//pula os bytes de alinhamento
 		pos+=waste;
-		//ERR("\n");
 	}
 
 	SDL_FreeSurface(img);
@@ -121,6 +124,37 @@ void cleanFire(t_gameGrid *grid)
 		for(x=0 ; x<grid->w ; x++,pos++)
 			if(grid->grid[pos] == Fire)
 				grid->grid[pos] = Empty;
+}
+
+/**
+  * cria as cores para cada elemento que aparece no minimapa
+  */
+void createMinimapColors(t_gameData *data)
+{
+	t_minimap *colors = &data->minimap;
+	colors->player[0] = 1.0;
+	colors->player[1] = 1.0;
+	colors->player[2] = 1.0;
+
+	colors->enemy[0] = 1.0;
+	colors->enemy[1] = 0;
+	colors->enemy[2] = 0;
+
+	colors->breakable[0] = 0;
+	colors->breakable[1] = 1.0;
+	colors->breakable[2] = 0;
+
+	colors->unbreakable[0] = 0.5;
+	colors->unbreakable[1] = 0.1;
+	colors->unbreakable[2] = 0.5;
+
+	colors->fire[0] = 0;
+	colors->fire[1] = 1.0;
+	colors->fire[2] = 1.0;
+
+	colors->floor[0] = 0;
+	colors->floor[1] = 0;
+	colors->floor[2] = 0.2;
 }
 
 /**

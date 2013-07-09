@@ -3,14 +3,18 @@
 
 #include <SDL/SDL_opengl.h>
 
+struct s_gameData;
+
 #include "powerup.h"
 #include "gameGrid.h"
 #include "list.h"
 
 typedef struct s_gameData
 {
-	t_gameGrid *grid;
-	t_gridTextures *textures;
+	struct s_gameGrid *grid;
+	struct s_gridTextures *textures;
+	//struct s_minimap minimap;
+	t_minimap minimap;
 	t_list bombs;
 	t_list explosions;
 	GLuint bombTexture;

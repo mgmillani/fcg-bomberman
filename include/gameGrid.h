@@ -7,7 +7,9 @@ typedef struct s_gridTextures t_gridTextures;
 
 #include <SDL/SDL_opengl.h>
 
-typedef enum {Empty,Bomb,Fire,Spawn,BreakableWall,UnbreakableWall,NumElements} e_gridElements;
+#define NUM_POWERUPS 3
+
+typedef enum {Empty,Bomb,Fire,Spawn,PowerupBomb,PowerupPower,PowerupSpeed,BreakableWall,UnbreakableWall,NumElements} e_gridElements;
 
 typedef struct s_gameGrid
 {

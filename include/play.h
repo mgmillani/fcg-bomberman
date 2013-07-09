@@ -3,6 +3,7 @@
 
 #include <SDL/SDL_opengl.h>
 
+#include "powerup.h"
 #include "gameGrid.h"
 #include "list.h"
 
@@ -16,6 +17,11 @@ typedef struct s_gameData
 	GLuint fuseTexture;
 	GLuint fireTexture;
 	GLuint smokeTexture;
+
+	t_powerup bombPowerup;
+	t_powerup powerPowerup;
+	t_powerup speedPowerup;
+
 }t_gameData;
 
 /**

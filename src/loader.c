@@ -5,6 +5,7 @@
 
 #include "configLoader.h"
 #include "gameGrid.h"
+#include "powerup.h"
 #include "loader.h"
 #include "play.h"
 #include "list.h"
@@ -22,6 +23,10 @@ const char gBombKeyword[] = "bomb";
 const char gFuseKeyword[] = "fuse";
 const char gFireKeyword[] = "fire";
 const char gSmokeKeyword[] = "smoke";
+const char gBorderPWKeyword[] = "border";
+const char gBombPWKeyword[] = "bomb_powerup";
+const char gSpeedPWKeyword[] = "speed_powerup";
+const char gPowerPWKeyword[] = "power_powerup";
 
 t_gameGrid *loadGrid(const char *fname,t_gameGrid *grid)
 {
@@ -90,6 +95,22 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	//fumaca
 	path = abpSearchNode(gSmokeKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	data->smokeTexture = loadTexture(path->data);
+	//borda dos powerups
+	path = abpSearchNode(gBorderPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	GLuint border = loadTexture(path->data);
+	//powerup de bomba
+	path = abpSearchNode(gBombPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	GLuint pw = loadTexture(path->data);
+	powerupInit(&data->bombPowerup,0.5,border,pw);
+	//powerup de velocidade
+	path = abpSearchNode(gSpeedPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	pw = loadTexture(path->data);
+	powerupInit(&data->speedPowerup,0.5,border,pw);
+	//powerup de poder
+	path = abpSearchNode(gPowerPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
+	pw = loadTexture(path->data);
+	powerupInit(&data->powerPowerup,0.5,border,pw);
+
 	//carrega o grid
 	path = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	t_gameGrid *grid = loadGrid(path->data,NULL);

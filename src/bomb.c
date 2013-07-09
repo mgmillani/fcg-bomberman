@@ -7,6 +7,7 @@
 #include "bomb.h"
 #include "physics.h"
 #include "draw.h"
+#include "random.h"
 
 #include "definitions.h"
 
@@ -114,6 +115,7 @@ t_explosion *explosionCreate(t_explosion *explosion, GLuint smoke, GLuint fire, 
 	explosion->dir[0] = dx;
 	explosion->dir[1] = dy;
 	explosion->power = power;
+	explosion->expanded = 0;
 	explosion->smoke = smoke;
 	explosion->fire = fire;
 
@@ -165,10 +167,13 @@ void simulateExplosion(t_gameData *data)
 
 		unsigned int i;
 		int pos;
+		//reconstroi o rastro da explosao
 		for(i=0 ; i<range ; i++)
 		{
 			pos = x + y*data->grid->w;
-			data->grid->grid[pos] = Fire;
+			//substitui o que for vazio
+			if(data->grid->grid[pos] == Empty)
+				data->grid->grid[pos] = Fire;
 			x+= exp->dir[0];
 			y+= exp->dir[1];
 
@@ -183,14 +188,37 @@ void simulateExplosion(t_gameData *data)
 				y = data->grid->h-1;
 		}
 
-		//se for um muro indestrutivel, para a expansao
-		pos = x + y*data->grid->w;
-		if(data->grid->grid[pos] == UnbreakableWall)
-			exp->power = range-1;
-		//se for qualquer outra coisa, destroi
-		else
-			data->grid->grid[pos] = Fire;
-
+		//se a explosao expandiu
+		if(range > exp->expanded)
+		{
+			exp->expanded = range;
+			//se for um muro indestrutivel, para a expansao
+			pos = x + y*data->grid->w;
+			if(data->grid->grid[pos] == UnbreakableWall)
+				exp->power = range-1;
+			//se for um muro destrutivel, ha uma chance de aparece um powerup
+			else if(data->grid->grid[pos] == BreakableWall)
+			{
+				int r = randrange(NUM_POWERUPS-1);
+				char powerup;
+				switch(r)
+				{
+					case 0:
+						powerup = PowerupBomb;
+						break;
+					case 1:
+						powerup = PowerupPower;
+						break;
+					case 2:
+						powerup = PowerupSpeed;
+						break;
+				}
+				data->grid->grid[pos] = powerup;
+			}
+			//se for qualquer outra coisa, destroi
+			else
+				data->grid->grid[pos] = Fire;
+		}
 
 		for(i=0 ; i<EXPLOSION_PARTICLES ; i++)
 		{
@@ -199,6 +227,7 @@ void simulateExplosion(t_gameData *data)
 			exp->smokeParticle[i].acc[1]+=0.0001;
 		}
 	}
+
 }
 
 /**

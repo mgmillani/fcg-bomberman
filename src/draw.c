@@ -3,6 +3,8 @@
 #include "draw.h"
 #include "build.h"
 #include "play.h"
+#include "player.h"
+#include "enemies.h"
 #include "camera.h"
 #include "bomb.h"
 
@@ -19,8 +21,9 @@ void drawWall(t_block *block)
 	drawRectangle(&block->right,block->texScaleX,block->texScaleY);
 }
 
-void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellHeight)
+void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 {
+	t_gameGrid *grid = data->grid;
 	unsigned int i,j,pos;
 	double location[3] = {0,0,0};
 	double size[3] = {grid->cellSize,cellHeight,grid->cellSize};
@@ -64,16 +67,9 @@ void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellHeight)
 	floor.w[2] = size[2];
 	glBindTexture(GL_TEXTURE_2D,texes->floor);
 	for(floor.pos[2]=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,floor.pos[2]+=size[2])
-	{
 		for(j=0,floor.pos[0]=-size[0]/2 ; j<grid->w ; j++,pos++,floor.pos[0]+=size[0])
-		{
 			if(grid->grid[pos] != UnbreakableWall && grid->grid[pos] != BreakableWall)
-			{
 				drawRectangle(&floor,1,1);
-			}
-		}
-	}
-
 
 	floor.v[2] = floor.w[2];
 	floor.w[0] = floor.v[0];
@@ -83,17 +79,33 @@ void drawGrid(t_gameGrid *grid,t_gridTextures *texes,double cellHeight)
 	glBindTexture(GL_TEXTURE_2D,texes->ceiling);
 	floor.pos[1] = cellHeight;
 	for(floor.pos[2]=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,floor.pos[2]+=size[2])
-	{
 		for(j=0,floor.pos[0]=-size[0]/2 ; j<grid->w ; j++,pos++,floor.pos[0]+=size[0])
-		{
 			if(grid->grid[pos] != UnbreakableWall && grid->grid[pos] != BreakableWall)
-			{
 				drawRectangle(&floor,1,1);
+
+	//powerups
+	double x,z;
+	glDisable(GL_CULL_FACE);
+	for(z=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,z+=size[2])
+		for(j=0,x=-size[0]/2 ; j<grid->w ; j++,pos++,x+=size[0])
+		{
+			t_powerup *p = NULL;
+			if(grid->grid[pos] == PowerupBomb)
+				p = &data->bombPowerup;
+			else if	(grid->grid[pos] == PowerupSpeed)
+				p = &data->speedPowerup;
+			else if	(grid->grid[pos] == PowerupPower)
+				p = &data->powerPowerup;
+
+			if(p!=NULL)
+			{
+				glPushMatrix();
+				glTranslated(x+size[0]/2,0.5,z+size[0]/2);
+				drawPowerup(p);
+				glPopMatrix();
 			}
 		}
-	}
-
-
+	glEnable(GL_CULL_FACE);
 
 }
 /**
@@ -182,11 +194,13 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,e_character *chr
 	updateCam(camera,chr);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(chr->lighting);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1,1,1);
-	drawGrid(game->grid,game->textures,3.0);
+	drawGrid(game,game->textures,3.0);
 	//glDisable(GL_TEXTURE_2D);
 	drawCharacter(chr);
 	drawEnemies(chra);

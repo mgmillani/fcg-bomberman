@@ -142,6 +142,82 @@ void buildBlock(t_block *block,double pos[3],double size[3])
 
 }
 
+/**
+  * constroi uma caixa fechada (6 lados) com as dimensoes dadas, centrada em (0,0,0)
+  */
+void buildBox(t_rect3 box[6], double width, double height, double depth)
+{
+
+	double w,h,d;
+	w = width/2;
+	h = height/2;
+	d = depth/2;
+
+	box[0].pos[0] = -w;
+	box[0].pos[1] = 0;
+	box[0].pos[2] = -d;
+
+	box[1].pos[0] = w;
+	box[1].pos[1] = 0;
+	box[1].pos[2] = d;
+
+	box[2].pos[0] = w;
+	box[2].pos[1] = 0;
+	box[2].pos[2] = -d;
+
+	box[3].pos[0] = -w;
+	box[3].pos[1] = 0;
+	box[3].pos[2] = -d;
+
+	box[4].pos[0] = -w;
+	box[4].pos[1] = -h;
+	box[4].pos[2] = -d;
+
+	box[5].pos[0] = -w;
+	box[5].pos[1] = h;
+	box[5].pos[2] = -d;
+
+	box[0].v[0] = 0;
+	box[0].v[1] = 0;
+	box[0].v[2] = -depth;
+
+	box[1].v[0] = -width;
+	box[1].v[1] = 0;
+	box[1].v[2] = 0;
+
+	box[2].v[0] = 0;
+	box[2].v[1] = 0;
+	box[2].v[2] = depth;
+
+	box[3].v[0] = width;
+	box[3].v[1] = 0;
+	box[3].v[2] = 0;
+
+	box[4].v[0] = 0;
+	box[4].v[1] = 0;
+	box[4].v[2] = depth;
+
+	box[5].v[0] = width;
+	box[5].v[1] = 0;
+	box[5].v[2] = 0;
+
+	unsigned int i;
+	for(i=0 ; i<4 ; i++)
+	{
+		box[i].w[0] = 0;
+		box[i].w[1] = height;
+		box[i].w[2] = 0;
+	}
+
+	box[4].w[0] = w;
+	box[4].w[1] = 0;
+	box[4].w[2] = 0;
+
+	box[5].w[0] = 0;
+	box[5].w[1] = 0;
+	box[5].w[2] = d;
+}
+
 
 
 

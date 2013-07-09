@@ -6,7 +6,7 @@
 
 #include <definitions.h>
 
-#define EXPLOSION_PARTICLES 15
+#define EXPLOSION_PARTICLES 50
 
 typedef struct s_bomb
 {
@@ -26,6 +26,7 @@ typedef struct s_explosion
 	unsigned int pos[2];
 	int dir[2]; //direcao da expansao
 	unsigned int power;
+	unsigned int expanded; //quanto que a explosao ja expandiu
 	Uint32 t0;     //instante em que a explosao comecou
 	Uint32 delay;  //tempo que permanece visivel
 	t_particle fireParticle[EXPLOSION_PARTICLES]; //posicao de cada particula

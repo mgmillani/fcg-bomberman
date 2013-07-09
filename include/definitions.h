@@ -28,12 +28,17 @@ typedef struct s_character
 	double dir[3];  //cartesian coordinates - direction of movement
 	double look[3]; //spherical coordinates (r,theta,phi) - where the character is looking
 
+	unsigned int lighting;
+
 	char firstPerson;
 	e_action action;  //acao que o jogador tentou fazer
 
-	double height;
 	double walkSpeed;
 	unsigned int power;
+	unsigned int bombs;
+	unsigned int maxBombs;
+
+	double height;
 	double rotation;
 
 	double wheelRot;    //rotacao da roda, em graus

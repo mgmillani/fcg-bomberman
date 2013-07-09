@@ -52,6 +52,7 @@
 		<Unit filename="include/physics.h" />
 		<Unit filename="include/play.h" />
 		<Unit filename="include/player.h" />
+		<Unit filename="include/powerup.h" />
 		<Unit filename="include/random.h" />
 		<Unit filename="src/abp.c">
 			<Option compilerVar="CC" />
@@ -105,6 +106,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/powerup.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/random.c">

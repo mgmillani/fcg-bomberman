@@ -101,15 +101,15 @@ t_gameData *loadMap(const char *configFile,const char *mapName,t_gameData *data)
 	//powerup de bomba
 	path = abpSearchNode(gBombPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	GLuint pw = loadTexture(path->data);
-	powerupInit(&data->bombPowerup,0.5,border,pw);
+	powerupInit(&data->bombPowerup,0.3,border,pw);
 	//powerup de velocidade
 	path = abpSearchNode(gSpeedPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	pw = loadTexture(path->data);
-	powerupInit(&data->speedPowerup,0.5,border,pw);
+	powerupInit(&data->speedPowerup,0.3,border,pw);
 	//powerup de poder
 	path = abpSearchNode(gPowerPWKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);
 	pw = loadTexture(path->data);
-	powerupInit(&data->powerPowerup,0.5,border,pw);
+	powerupInit(&data->powerPowerup,0.3,border,pw);
 
 	//carrega o grid
 	path = abpSearchNode(gMapKeyword,mapInfo,(int (*)(const void*,const void*))strcmp);

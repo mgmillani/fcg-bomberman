@@ -16,7 +16,7 @@ t_powerup *powerupInit(t_powerup *pwup,double size,GLuint border,GLuint image)
 	pwup->border = border;
 	pwup->image = image;
 
-	buildBox(pwup->frameBox,size*0.1,size,size);
+	buildBox(pwup->frameBox,size*0.1,size*1.5,size*1.5);
 	buildBox(pwup->imageBox,size,size,size);
 
 	return pwup;

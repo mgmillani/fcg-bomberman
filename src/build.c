@@ -154,19 +154,19 @@ void buildBox(t_rect3 box[6], double width, double height, double depth)
 	d = depth/2;
 
 	box[0].pos[0] = -w;
-	box[0].pos[1] = 0;
-	box[0].pos[2] = -d;
+	box[0].pos[1] = -h;
+	box[0].pos[2] = d;
 
 	box[1].pos[0] = w;
-	box[1].pos[1] = 0;
+	box[1].pos[1] = -h;
 	box[1].pos[2] = d;
 
 	box[2].pos[0] = w;
-	box[2].pos[1] = 0;
+	box[2].pos[1] = -h;
 	box[2].pos[2] = -d;
 
 	box[3].pos[0] = -w;
-	box[3].pos[1] = 0;
+	box[3].pos[1] = -h;
 	box[3].pos[2] = -d;
 
 	box[4].pos[0] = -w;
@@ -209,13 +209,13 @@ void buildBox(t_rect3 box[6], double width, double height, double depth)
 		box[i].w[2] = 0;
 	}
 
-	box[4].w[0] = w;
+	box[4].w[0] = width;
 	box[4].w[1] = 0;
 	box[4].w[2] = 0;
 
 	box[5].w[0] = 0;
 	box[5].w[1] = 0;
-	box[5].w[2] = d;
+	box[5].w[2] = depth;
 }
 
 

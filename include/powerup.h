@@ -8,6 +8,7 @@ typedef struct s_powerup
 	t_rect3 frameBox[6];
 	t_rect3 imageBox[6];
 	GLuint image;
+	double angle;
 	GLuint border;
 }t_powerup;
 

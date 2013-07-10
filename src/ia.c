@@ -71,16 +71,6 @@ void enemyAI(t_gameData *data)
 				//se achou o jogador, vai!
 				if(ex == px && ey==py)
 				{
-					//determina onde dentro da celula esta o jogador
-					if(data->player->pos[0] > enemy->pos[0])
-						dx = 1;
-					else
-						dx = -1;
-
-					if(data->player->pos[2] > enemy->pos[2])
-						dy = 1;
-					else
-						dy = -1;
 					break;
 				}
 				switch(grid->grid[pos])
@@ -99,6 +89,22 @@ void enemyAI(t_gameData *data)
 			if(clear)
 			{
 				enemy->numMovement = 0;
+				//se o jogador estiver no mesmo quadrado do inimigo
+				ex = enemy->pos[0]/data->grid->cellSize + 0.5;
+				ey = enemy->pos[2]/data->grid->cellSize + 0.5;
+				if(ex==px && ey==py)
+				{
+				//determina onde dentro da celula esta o jogador
+					if(data->player->pos[0] > enemy->pos[0])
+						dx = 1;
+					else
+						dx = -1;
+
+					if(data->player->pos[2] > enemy->pos[2])
+						dy = 1;
+					else
+						dy = -1;
+				}
 				enemy->acc[0] += dx*enemy->walkSpeed;
 				enemy->acc[2] += dy*enemy->walkSpeed;
 			}

@@ -15,6 +15,7 @@ t_powerup *powerupInit(t_powerup *pwup,double size,GLuint border,GLuint image)
 
 	pwup->border = border;
 	pwup->image = image;
+	pwup->angle = 0;
 
 	buildBox(pwup->frameBox,size*0.1,size*1.5,size*1.5);
 	buildBox(pwup->imageBox,size,size,size);
@@ -29,6 +30,7 @@ void drawPowerup(t_powerup *pwup)
 {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D,pwup->border);
+	glRotatef(pwup->angle,0,1,0);
 	unsigned int i;
 	for(i=0 ; i<6 ; i++)
 		drawRectangle(pwup->frameBox+i,1.0,1.0);

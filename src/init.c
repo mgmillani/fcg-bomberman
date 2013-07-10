@@ -59,13 +59,14 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 
 	//cria a iluminacao
 	chr->lighting = GL_LIGHT0;
-	GLfloat light_ambient[] = { 0,0,0,0 };
-	glGetFloatv(GL_COLOR_CLEAR_VALUE,light_ambient);
+	GLfloat light_ambient[] = { 0.6,0.6,0.6,0 };
+	//glGetFloatv(GL_COLOR_CLEAR_VALUE,light_ambient);
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	glLightfv(chr->lighting, GL_AMBIENT, light_ambient);
 	glLightfv(chr->lighting, GL_DIFFUSE, light_diffuse);
 	glLightfv(chr->lighting, GL_SPECULAR, light_specular);
+	glLightfv(chr->lighting, GL_SPOT_EXPONENT, light_specular);
 
 	chr->firstPerson = 0;
 	chr->action = None;

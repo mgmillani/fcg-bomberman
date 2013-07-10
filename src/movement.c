@@ -102,11 +102,6 @@ void treatCharacterAction(t_character *chr,t_gameData *data)
 	{
 		case PlaceBomb:
 		{
-			//verifica se o personagem pode colocar bombas
-			if(chr->bombs > 0)
-				chr->bombs--;
-			else
-				break;
 			//determina a posicao do personagem
 			int x,y;
 			x = (chr->pos[0] + grid->cellSize/2)/grid->cellSize;
@@ -136,6 +131,11 @@ void treatCharacterAction(t_character *chr,t_gameData *data)
 				break;
 			if(grid->grid[x + y*grid->w] == Empty)
 			{
+				//verifica se o personagem pode colocar bombas
+				if(chr->bombs > 0)
+					chr->bombs--;
+				else
+					break;
 				//cria a bomba
 				grid->grid[x + y*grid->w] = Bomb;
 				t_bomb *bomb = bombCreate(NULL,chr,data->bombTexture,data->fuseTexture,chr->power,x,y);

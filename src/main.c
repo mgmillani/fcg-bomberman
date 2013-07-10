@@ -123,8 +123,7 @@ int main(int argc, char **argv)
 	char status = play(&data);
 
 
-
-	if(play == 1)
+	if(status == 1)
 	{
 		gameOver(victory);
 	}

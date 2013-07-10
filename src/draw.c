@@ -115,7 +115,23 @@ void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 				glPopMatrix();
 			}
 		}
+	data->bombPowerup.angle+=1;
+	if(data->bombPowerup.angle > 360)
+		data->bombPowerup.angle-=360;
+	else if(data->bombPowerup.angle < 0)
+		data->bombPowerup.angle+=360;
 
+	data->speedPowerup.angle+=1;
+	if(data->speedPowerup.angle > 360)
+		data->speedPowerup.angle-=360;
+	else if(data->speedPowerup.angle < 0)
+		data->speedPowerup.angle+=360;
+
+	data->powerPowerup.angle+=1;
+	if(data->powerPowerup.angle > 360)
+		data->powerPowerup.angle-=360;
+	else if(data->powerPowerup.angle < 0)
+		data->powerPowerup.angle+=360;
 }
 /**
   * desenha um retangulo na regiao dada, assumindo que uma textura ja existe
@@ -150,6 +166,8 @@ void drawRectangle(t_rect3 *region,double texScaleX,double texScaleY)
   */
 void drawCharacter(t_character *chr)
 {
+	float lpos[] = {chr->pos[0] , chr->pos[1] + 1.1*chr->height , chr->pos[2],1.0};
+	glLightfv(chr->lighting, GL_POSITION, lpos);
 	glPushMatrix();
 	glTranslated(chr->pos[0],chr->pos[1]+chr->wheelRadius,chr->pos[2]);
 	//glRotatef(chr->look[2]*180/PI+90,0,1,0);
@@ -215,6 +233,7 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1,1,1);
+
 	drawGrid(game,game->textures,3.0);
 	//glDisable(GL_TEXTURE_2D);
 	drawCharacter(chr);
@@ -241,7 +260,7 @@ void drawScene(t_scene *scene,t_camera *camera,t_character *chr,int numChars,int
   */
 void drawMinimap(t_gameGrid *grid,t_minimap *colors)
 {
-
+	//t_gameGrid *grid = data->grid;
 	double x,y;
 	double cellSize = 0.1;
 	double x0 = -cellSize*grid->w/2;

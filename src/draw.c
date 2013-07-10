@@ -73,8 +73,14 @@ void drawGrid(t_gameData *data,t_gridTextures *texes,double cellHeight)
 	glBindTexture(GL_TEXTURE_2D,texes->floor);
 	for(floor.pos[2]=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,floor.pos[2]+=size[2])
 		for(j=0,floor.pos[0]=-size[0]/2 ; j<grid->w ; j++,pos++,floor.pos[0]+=size[0])
-			if(grid->grid[pos] != UnbreakableWall && grid->grid[pos] != BreakableWall)
+			if(grid->grid[pos] != UnbreakableWall && grid->grid[pos] != BreakableWall && grid->grid[pos] != Fire)
 				drawRectangle(&floor,1,1);
+
+		glBindTexture(GL_TEXTURE_2D,data->fireTexture);
+		for(floor.pos[2]=-size[2]/2,pos=0,i=0 ; i<grid->h ; i++,floor.pos[2]+=size[2])
+			for(j=0,floor.pos[0]=-size[0]/2 ; j<grid->w ; j++,pos++,floor.pos[0]+=size[0])
+				if(grid->grid[pos] == Fire)
+					drawRectangle(&floor,1,1);
 
 	floor.v[2] = floor.w[2];
 	floor.w[0] = floor.v[0];
@@ -160,9 +166,10 @@ void drawEnemies(e_character *chra,unsigned int numEnemies)
 	unsigned int i;
 	for(i=0 ; i<numEnemies ; i++)
 	{
+		if(chra[i].dead)
+			continue;
 		glPushMatrix();
 		glTranslated(chra[i].pos[0],chra[i].pos[1]+chra[i].wheelRadius,chra[i].pos[2]);
-		//glColor3f(1.0,1.0,1.0);
 		drawEnemy(chra+i);
 		glPopMatrix();
 	}

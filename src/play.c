@@ -80,6 +80,7 @@ char play(t_gameData *game)
 	char play = 0;
 	while(play == 0)
 	{
+		play = checkVictory(game);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Uint8 *keystate;
 		int numKeys;
@@ -106,7 +107,7 @@ char play(t_gameData *game)
 		keystate = SDL_GetKeyState(&numKeys);
 		//verifica se ESC foi pressionado
 		if(keystate[SDLK_ESCAPE]==1)
-			play = 0;
+			play = -1;
 
 		treatKeyStateCharacter(dudes, keystate, numKeys);
 		updateCharacterWalkDir(dudes);
@@ -126,8 +127,6 @@ char play(t_gameData *game)
 
 		SDL_GL_SwapBuffers();
 		controlFramerate(frameControl);
-
-		play = checkVictory(game);
 	}
 
 	return play;

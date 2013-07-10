@@ -44,7 +44,7 @@ void drawBomb(t_bomb *bomb)
   * cria uma bomba
   * se NULL for passado, aloca uma nova bomba
   */
-t_bomb *bombCreate(t_bomb *bomb, GLuint body, GLuint fuse, unsigned int power, unsigned int x, unsigned int y)
+t_bomb *bombCreate(t_bomb *bomb,t_character *owner, GLuint body, GLuint fuse, unsigned int power, unsigned int x, unsigned int y)
 {
 	if(bomb == NULL)
 		bomb = malloc(sizeof(*bomb));
@@ -54,6 +54,7 @@ t_bomb *bombCreate(t_bomb *bomb, GLuint body, GLuint fuse, unsigned int power, u
 	bomb->power = power;
 	bomb->bodyTexture = body;
 	bomb->fuseTexture = fuse;
+	bomb->owner = owner;
 
 	bomb->body = gluNewQuadric();
 	bomb->fuse = gluNewQuadric();
@@ -83,7 +84,9 @@ void checkBombExplosion(t_gameData *data)
 		aux = node->next;
 		//verifica se a bomba explodiu
 		t_bomb *bomb = node->key;
-		if(t1 - bomb->t0 > bomb->delay)
+		int pos = bomb->pos[0] + bomb->pos[1]*data->grid->w;
+
+		if((t1 - bomb->t0 > bomb->delay) || (data->grid->grid[pos] == Fire))
 		{
 			//cria uma explosao para cada direcao
 			t_explosion *exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],1,0,data->grid->cellSize);
@@ -94,6 +97,11 @@ void checkBombExplosion(t_gameData *data)
 			listAppend(&data->explosions,exp,NULL);
 			exp = explosionCreate(NULL,data->smokeTexture,data->fireTexture,bomb->power,bomb->pos[0],bomb->pos[1],0,-1,data->grid->cellSize);
 			listAppend(&data->explosions,exp,NULL);
+
+			int pos = bomb->pos[0] + bomb->pos[1]*data->grid->w;
+			data->grid->grid[pos] = Fire;
+			//devolve a bomba ao jogador
+			bomb->owner->bombs++;
 
 			//destroi a bomba
 			bombDestroy(bomb);

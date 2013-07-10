@@ -137,6 +137,21 @@ void playerCollision(t_character *chr,t_gameData *data)
 			break;
 		case Fire:
 			chr->dead = 1;
+			break;
+		//powerups
+		case PowerupBomb:
+			chr->maxBombs++;
+			chr->bombs++;
+			grid->grid[pos] = Empty;
+			break;
+		case PowerupSpeed:
+			chr->walkSpeed *= 1.07;
+			grid->grid[pos] = Empty;
+			break;
+		case PowerupPower:
+			chr->power++;
+			grid->grid[pos] = Empty;
+			break;
 		default:
 			break;
 	}

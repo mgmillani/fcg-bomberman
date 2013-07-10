@@ -19,6 +19,21 @@ void enemyAI(t_gameData *data)
 	for(e=0 ; e<data->numEnemies ; e++)
 	{
 		e_character *enemy = data->enemies + e;
+
+		//se o inimigo estiver morto, ignora
+		if(enemy->dead)
+			continue;
+
+		//verifica se esta perto do jogador
+		double diffx = enemy->pos[0] - data->player->pos[0];
+		double diffy = enemy->pos[2] - data->player->pos[2];
+		double dist = sqrt(diffx*diffx + diffy*diffy);
+		//se estiver, mata o jogador
+		if(dist < data->grid->cellSize*0.2)
+		{
+			data->player->dead = 1;
+			break;
+		}
 		int ex,ey;
 		ex = enemy->pos[0]/data->grid->cellSize + 0.5;
 		ey = enemy->pos[2]/data->grid->cellSize + 0.5;
@@ -56,8 +71,16 @@ void enemyAI(t_gameData *data)
 				//se achou o jogador, vai!
 				if(ex == px && ey==py)
 				{
-					//se a distancia for 1, mata o jogador
-					data->player->dead = 1;
+					//determina onde dentro da celula esta o jogador
+					if(data->player->pos[0] > enemy->pos[0])
+						dx = 1;
+					else
+						dx = -1;
+
+					if(data->player->pos[2] > enemy->pos[2])
+						dy = 1;
+					else
+						dy = -1;
 					break;
 				}
 				switch(grid->grid[pos])

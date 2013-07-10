@@ -70,10 +70,12 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 	chr->firstPerson = 0;
 	chr->action = None;
 	chr->dead = 0;
+	chr->bombs = 1;
+	chr->maxBombs = 1;
 
 	chr->height = 0.65;
 	chr->walkSpeed = WALKSPEED;
-	chr->power = 10;
+	chr->power = 2;
 	chr->rotation = PI/30;
 
 	chr->wheelRot = 0;

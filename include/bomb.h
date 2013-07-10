@@ -15,6 +15,7 @@ typedef struct s_bomb
 	Uint32 delay;  //tempo para a explosao
 	unsigned int power;
 	double radius;
+	t_character *owner;
 	GLUquadric *body;
 	GLUquadric *fuse;
 	GLuint bodyTexture;
@@ -44,7 +45,7 @@ void drawBomb(t_bomb *bomb);
   * cria uma bomba
   * se NULL for passado, aloca uma nova bomba
   */
-t_bomb *bombCreate(t_bomb *, GLuint body, GLuint fuse, unsigned int power, unsigned int x, unsigned int y);
+t_bomb *bombCreate(t_bomb *, t_character *owner,GLuint body, GLuint fuse, unsigned int power, unsigned int x, unsigned int y);
 
 /**
   * simula o efeito das explosoes

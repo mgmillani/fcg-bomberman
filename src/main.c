@@ -17,6 +17,8 @@
 #define BPP 32
 
 const char gProgName[] = "Bombot";
+const char gVictory[] = "textures/screens/victory.jpg";
+const char gDefeat[] = "textures/screens/defeat.jpg";
 
 //inits stuff and the screen
 int init(int width,int height,int bpp,int options)
@@ -65,6 +67,43 @@ int init(int width,int height,int bpp,int options)
 	return 0;
 }
 
+void gameOver(GLuint screen)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_CULL_FACE);
+	gluOrtho2D(1,-1,-1,1);
+	glColor3f(1,1,1);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,screen);
+
+	glBegin(GL_QUADS);
+
+	glTexCoord2f(0, 0.0f);   // coords for the texture
+	glVertex2f(1,1);
+
+	glTexCoord2f(0, 1.0);   // coords for the texture
+	glVertex2f(1,-1);
+
+	glTexCoord2f(1.0, 1.0);   // coords for the texture
+	glVertex2f(-1,-1);
+
+	glTexCoord2f(1.0, 0);   // coords for the texture
+	glVertex2f(-1,1);
+
+
+	glEnd();
+
+	SDL_GL_SwapBuffers();
+
+	SDL_Delay(3000);
+}
+
 int main(int argc, char **argv)
 {
 	if(init(WIDTH,HEIGHT,BPP,SDL_OPENGL | SDL_SWSURFACE)!=0)
@@ -74,11 +113,25 @@ int main(int argc, char **argv)
 	}
 
 	t_gameData data;
-	loadMap("config","Empty",&data);
+	loadMap("config","Factory",&data);
 	listInit(&(data.bombs));
 	listInit(&(data.explosions));
 
-	play(&data);
+	GLuint victory = loadTexture(gVictory);
+	GLuint defeat = loadTexture(gDefeat);
+
+	char status = play(&data);
+
+
+
+	if(play == 1)
+	{
+		gameOver(victory);
+	}
+	else
+	{
+		gameOver(defeat);
+	}
 
 	SDL_Quit();
 	return 0;

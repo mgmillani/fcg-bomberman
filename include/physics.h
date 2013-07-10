@@ -1,6 +1,7 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
+#include "play.h"
 #include "definitions.h"
 
 /**
@@ -13,10 +14,14 @@ void forceWithinScene(t_character *chr, t_scene *scene);
   */
 void moveParticle(t_particle *part);
 
+void enemyCollision(e_character *chr,t_gameData *data);
+
+void playerCollision(t_character *chra,t_gameData *data);
+
 /**
   * simula a fisica dos personagens
   */
-void simulatePhysics(t_character *chr,int numDudes, t_scene *scene,double gravity[3]);
+void simulatePhysics(t_gameData *data, t_scene *scene,double gravity[3]);
 
 #endif // PHYSICS_H
 

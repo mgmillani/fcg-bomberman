@@ -69,6 +69,7 @@ t_character *initCharacter(t_character *chr,GLuint texture,t_gameGrid *grid)
 
 	chr->firstPerson = 0;
 	chr->action = None;
+	chr->dead = 0;
 
 	chr->height = 0.65;
 	chr->walkSpeed = WALKSPEED;
@@ -139,6 +140,8 @@ e_character *initEnemies(e_character *chra,GLuint texture)
 	chra->height = 0.65;
 	chra->walkSpeed = WALKSPEED;
 	chra->rotation = PI/30;
+	chra->numMovement = 0;
+	chra->dead = 0;
 
 	chra->wheelRot = 0;
 	chra->wheelNorm[0] = 1;

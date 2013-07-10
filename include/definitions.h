@@ -31,6 +31,7 @@ typedef struct s_character
 	unsigned int lighting;
 
 	char firstPerson;
+	char dead;
 	e_action action;  //acao que o jogador tentou fazer
 
 	double walkSpeed;
@@ -63,8 +64,10 @@ typedef struct m_character
 	double acc[3];
 	double dir[3];  //cartesian coordinates - direction of movement
 	double look[3]; //spherical coordinates (r,theta,phi) - where the character is looking
+	int numMovement; //numero de movimentos ate trocar a direcao
 
 	char firstPerson;
+	char dead;
 
 	double height;
 	double walkSpeed;

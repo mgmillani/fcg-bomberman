@@ -7,6 +7,7 @@
 #include "frameControl.h"
 #include "draw.h"
 #include "init.h"
+#include "ia.h"
 #include "physics.h"
 #include "movement.h"
 #include "loader.h"
@@ -31,10 +32,28 @@ const char gEnemyDFile[] = "textures/enemyd.jpg";
 double gravity[3] = {0,-0.005,0};
 double crossWidth = 2;
 
+char checkVictory(t_gameData *game)
+{
+	// se o jogador morreu, game over
+	if(game->player->dead == 1)
+		return -1;
+	//se todas os inimigos morreram, vitoria
+	int i;
+	int dead = 0;
+	for(i=0 ; i<game->numEnemies ; i++)
+	{
+		dead += game->enemies[i].dead;
+	}
+	if(dead == game->numEnemies)
+		return 1;
+
+	return 0;
+}
+
 /**
   * laco principal do jogo
   */
-void play(t_gameData *game)
+char play(t_gameData *game)
 {
 	int numDudes = 1;
 	//personagens
@@ -43,6 +62,8 @@ void play(t_gameData *game)
 	initCharacter(dudes,dudeTex,game->grid);
 	t_camera camera;
 	initCamera(&camera,dudes);
+
+	game->player = dudes;
 
 	//lista para as bombas
 	t_list bombs;
@@ -56,8 +77,8 @@ void play(t_gameData *game)
 	t_frameController frameControl;
 	initFrameController(&frameControl,fps);
 
-	char play = 1;
-	while(play)
+	char play = 0;
+	while(play == 0)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Uint8 *keystate;
@@ -67,7 +88,7 @@ void play(t_gameData *game)
 		while(SDL_PollEvent(&event))
 		{
 			if(event.type == SDL_QUIT)
-				play = 0;
+				play = -1;
 			else if(event.type == SDL_KEYDOWN)
 			{
 				treatKeyDownCharacters(dudes,&event);
@@ -91,20 +112,24 @@ void play(t_gameData *game)
 		updateCharacterWalkDir(dudes);
 		treatCharacterAction(dudes,game);
 
-		simulatePhysics(dudes,numDudes,&scene,gravity);
+		enemyAI(game);
+		simulatePhysics(game,&scene,gravity);
+
 		//verifica se alguma bomba explodiu
 		checkBombExplosion(game);
 		//tira o fogo do cenario
 		cleanFire(game->grid);
 		simulateExplosion(game);
 
-		enemyAI(data);
-
 		//desenha a cena
 		drawScene(&scene,&camera,dudes,numDudes,WIDTH,HEIGHT,crossWidth,game);
 
 		SDL_GL_SwapBuffers();
 		controlFramerate(frameControl);
+
+		play = checkVictory(game);
 	}
+
+	return play;
 
 }

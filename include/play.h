@@ -22,6 +22,8 @@ typedef struct s_gameData
 	GLuint fireTexture;
 	GLuint smokeTexture;
 
+	t_character *player;
+
 	GLuint enemyTexture;
 	e_character *enemies;
 	unsigned int numEnemies;
@@ -35,7 +37,7 @@ typedef struct s_gameData
 /**
   * laco principal do jogo
   */
-void play(t_gameData *game);
+char play(t_gameData *game);
 
 
 #endif // PLAY_H
